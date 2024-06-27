@@ -103,19 +103,34 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE = 1;
     private ImageView imageView;
+    private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        imageView = findViewById(R.id.imageView); // Ensure you have an ImageView in your layout
+        imageView = findViewById(R.id.imageView);
 
         findViewById(R.id.button).setOnClickListener(v -> openGallery());
+
+        Button b=findViewById(R.id.button2);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterActivity.this, ProfileActivity.class);
+                intent.putExtra("imagePath", imagePath);
+                startActivity(intent);
+            }
+        });
     }
 
     private void openGallery() {
@@ -129,7 +144,25 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
-            imageView.setImageURI(selectedImage); // Display the selected image in the ImageView
+            imageView.setImageURI(selectedImage);
+            saveImageToProjectFolder(selectedImage);
+        }
+    }
+
+    private void saveImageToProjectFolder(Uri selectedImageUri) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+            File directory = new File(getFilesDir(), "project/images");
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            File imageFile = new File(directory, "selected_image.jpg");
+            FileOutputStream fos = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.close();
+            imagePath = imageFile.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
