@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/signUpHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/signin" />
+
+
+    <ImageView
+        android:id="@+id/FAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="24dp"
+        android:layout_marginTop="50dp"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/large_fab" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signUpHeader"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:hint="username"
+        android:textColorHint="@color/hardBlue"
+        app:boxStrokeColor="@color/hardBlue"
+        app:hintTextColor="@color/hardBlue"
+
+        app:placeholderText="enter your username">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusedSearchResultHighlightColor="@color/hardBlue"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/hardBlue"
+            android:textColorHint="@color/hardBlue" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="50dp"
+        android:hint="password"
+        android:textColorHint="@color/hardBlue"
+        app:boxStrokeColor="@color/hardBlue"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/hardBlue"
+        app:hintTextColor="@color/hardBlue"
+        app:placeholderText="enter your password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusedSearchResultHighlightColor="@color/hardBlue"
+            android:inputType="textPassword"
+            android:textColor="@color/hardBlue"
+            android:textColorHint="@color/hardBlue" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/textField2"
+        android:layout_marginTop="10dp"
+        android:text="Forgot your password?"
+        android:textAlignment="center"
+        android:textColor="@color/hardBlue"
+        android:textSize="16sp"
+        android:textStyle="normal" />
+
+
+    <ImageView
+        android:id="@+id/btnsignin"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/forgotPassword"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/btn_signin" />
+    <ImageView
+        android:id="@+id/btnsignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btnsignin"
+        android:layout_marginTop="5dp"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/btn_signup" />
+</RelativeLayout>
