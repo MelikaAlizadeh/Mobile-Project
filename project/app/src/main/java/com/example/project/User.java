@@ -2,13 +2,31 @@ package com.example.project;
 
 import android.widget.EditText;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "user")
 public class User {
+    @ColumnInfo(name = "username")
+    @PrimaryKey(autoGenerate = false)
     private String username;
+    @ColumnInfo(name = "password")
     private String password;
+    @ColumnInfo(name = "email")
     private String email;
+    @ColumnInfo(name = "name")
     private String name;
+    @ColumnInfo(name = "city")
     private String city;
+    @ColumnInfo(name = "region")
     private String region;
+
+    @Ignore
+    public User() {
+
+    }
 
     public User(EditText username, EditText password, EditText email, EditText name, EditText city, EditText region, EditText type) {
         this.username = String.valueOf(username);
