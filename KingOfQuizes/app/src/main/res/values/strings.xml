@@ -1,3 +1,4 @@
 <resources>
+    <string name="underlined_text"><u>View All</u></string>
     <string name="app_name">KingOfQuizes</string>
 </resources>
