@@ -4,43 +4,78 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class RegisterActivity extends AppCompatActivity {
+
+    List<User> usersList;
+    UserDB userDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-    }
-}
+        setContentView(R.layout.activity_signup);
 
-//        String hEmail = "mm";
-//        String hUsername = "m";
-//        String hPassword = "10";
-//
-//        EditText username = findViewById(R.id.username);
-//        EditText password = findViewById(R.id.password);
-//        EditText email = findViewById(R.id.email);
-//        EditText name = findViewById(R.id.name);
-//        EditText city = findViewById(R.id.city);
-//        EditText region = findViewById(R.id.region);
-//        EditText type = findViewById(R.id.type);
-//        User newUser=new User(username,password,email,name,city,region,type);
-//
-//        Button register = findViewById(R.id.registerButton);
-//        register.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        //hardcode for testing before having db
+        String hEmail = "mm";
+        String hUsername = "m";
+        String hPassword = "10";
+
+        TextInputLayout usernameLayout = findViewById(R.id.textField);
+        TextInputEditText username = (TextInputEditText) usernameLayout.getEditText();
+        TextInputLayout emailLayout = findViewById(R.id.textField2);
+        TextInputEditText email = (TextInputEditText) emailLayout.getEditText();
+        TextInputLayout passwordLayout = findViewById(R.id.textField3);
+        TextInputEditText password = (TextInputEditText) passwordLayout.getEditText();
+        TextInputLayout passwordCheckLayout = findViewById(R.id.textField4);
+        TextInputEditText passwordCheck = (TextInputEditText) passwordCheckLayout.getEditText();
+        User newUser = new User(username.getText().toString(), password.getText().toString(), email.getText().toString());
+
+        RoomDatabase.Callback myCallBack = new RoomDatabase.Callback() {
+            @Override
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                super.onCreate(db);
+            }
+
+            @Override
+            public void onOpen(@NonNull SupportSQLiteDatabase db) {
+                super.onOpen(db);
+            }
+        };
+
+        userDB = Room.databaseBuilder(getApplicationContext(), UserDB.class, "userDB").addCallback(myCallBack).build();
+
+
+        ImageView register = findViewById(R.id.btnsignup);
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addUserInBackground(newUser);
+                print(username.getText().toString(), password.getText().toString(), email.getText().toString());
 //                String givenUsername = username.getText().toString();
 //                String givenPassword = password.getText().toString();
 //                String givenEmail = email.getText().toString();
@@ -55,20 +90,69 @@ public class RegisterActivity extends AppCompatActivity {
 //                } else if (!isEmailValid(givenEmail)) {
 //                    Toast.makeText(getBaseContext(), "Invalid email format!", Toast.LENGTH_LONG).show();
 //                } else {
-//                    print(givenUsername, givenPassword, givenEmail);
 //                    //TODO: add newUser to db
-//                    Intent main = new Intent(RegisterActivity.this, MainActivity.class);
-//                    startActivity(main);
+//                    Intent splash = new Intent(RegisterActivity.this, MainActivity.class);
+//                    startActivity(splash);
 //                    finish();
 //                }
-//            }
-//        });
-//
-//    }
-//
-//    private void print(String givenUsername, String givenPassword, String givenEmail) {
-//        Toast.makeText(getBaseContext(), "Welcome " + givenUsername + "\n" + givenPassword + "\n" + givenEmail, Toast.LENGTH_LONG).show();
-//    }
+            }
+        });
+
+        ImageView login = findViewById(R.id.btnsignin);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(main);
+                finish();
+            }
+        });
+    }
+
+    public void addUserInBackground(User user) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                //background task
+                userDB.getUserDAO().addUser(user);
+
+                //on finishing task
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getBaseContext(), "Welcome", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+    }
+
+    public void getUsersInBackground(User user) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                //background task
+                userDB.getUserDAO().addUser(user);
+
+                //on finishing task
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getBaseContext(), "Welcome", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+    }
+
+    //
+    private void print(String givenUsername, String givenPassword, String givenEmail) {
+        Toast.makeText(getBaseContext(), "Welcome " + givenUsername + "\n" + givenPassword + "\n" + givenEmail, Toast.LENGTH_LONG).show();
+    }
 //
 //    public boolean isUsernameValid(String username) {
 //        if (username.matches("^[a-zA-Z0-9_]+$"))
@@ -98,7 +182,8 @@ public class RegisterActivity extends AppCompatActivity {
 //        else
 //            return false;
 //    }
-//}
+}
+
 
 //TODO: change checking parts according to the database and its functions
 

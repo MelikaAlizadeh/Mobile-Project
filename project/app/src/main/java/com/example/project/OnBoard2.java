@@ -32,7 +32,7 @@ public class OnBoard2 extends AppCompatActivity {
         imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent splash = new Intent(OnBoard2.this, LoginActivity.class);
+                Intent splash = new Intent(OnBoard2.this, RegisterActivity.class);
                 startActivity(splash);
                 finish();
             }

@@ -30,13 +30,19 @@ public class User {
     }
 
     @Ignore
-    public User(EditText username, EditText password, EditText email, EditText name, EditText city, EditText region, EditText type) {
-        this.username = String.valueOf(username);
-        this.password = String.valueOf(password);
-        this.email = String.valueOf(email);
-        this.name = String.valueOf(name);
-        this.city = String.valueOf(city);
-        this.region = String.valueOf(region);
+    public User(@NonNull String username, String password, String email, String name, String city, String region, String type) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.city = city;
+        this.region = region;
+    }
+
+    public User(@NonNull String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
 
     public String getUsername() {
