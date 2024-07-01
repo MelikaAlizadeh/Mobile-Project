@@ -6,14 +6,37 @@
 
 
     <ImageView
-        android:id="@+id/signInHeader"
+        android:id="@+id/signUpHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/signin" />
+        app:srcCompat="@drawable/signup" />
 
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipsgroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signUpHeader"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        app:singleLine="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload Profile"
+            android:textColor="@color/hardBlue"
+            app:checkedIconTint="@color/hardBlue"
+            app:chipIcon="@drawable/uploadprof"
+            app:chipIconSize="20dp"
+            app:chipIconTint="@color/hardBlue"
+            app:chipStrokeColor="@color/hardBlue"
+            app:chipSurfaceColor="@color/lightBlue" />
+    </com.google.android.material.chip.ChipGroup>
 
     <ImageView
         android:id="@+id/FAB"
@@ -30,17 +53,17 @@
         android:id="@+id/textField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/signInHeader"
+        android:layout_below="@+id/chipsgroup"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"
         android:hint="username"
         android:textColorHint="@color/hardBlue"
         app:boxStrokeColor="@color/hardBlue"
         app:hintTextColor="@color/hardBlue"
 
-        app:placeholderText="enter your username">
+
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -57,7 +80,32 @@
         android:id="@+id/textField2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textField"
+        android:layout_below="@+id/textField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="50dp"
+        android:hint="nickname"
+        android:textColorHint="@color/hardBlue"
+        app:boxStrokeColor="@color/hardBlue"
+        app:hintTextColor="@color/hardBlue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusedSearchResultHighlightColor="@color/hardBlue"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            android:textColor="@color/hardBlue"
+            android:textColorHint="@color/hardBlue" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textField2"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="5dp"
@@ -67,8 +115,7 @@
         app:boxStrokeColor="@color/hardBlue"
         app:endIconMode="password_toggle"
         app:endIconTint="@color/hardBlue"
-        app:hintTextColor="@color/hardBlue"
-        app:placeholderText="enter your password">
+        app:hintTextColor="@color/hardBlue">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -80,27 +127,39 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/forgotPassword"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField4"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textField2"
+        android:layout_below="@id/textField3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="Forgot your password?"
-        android:textAlignment="center"
-        android:textColor="@color/hardBlue"
-        android:textSize="16sp"
-        android:textStyle="normal" />
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="50dp"
+        android:hint="repeat password"
+        android:textColorHint="@color/hardBlue"
+        app:boxStrokeColor="@color/hardBlue"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/hardBlue"
+        app:hintTextColor="@color/hardBlue">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusedSearchResultHighlightColor="@color/hardBlue"
+            android:inputType="textPassword"
+            android:textColor="@color/hardBlue"
+            android:textColorHint="@color/hardBlue" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/btnsignin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/forgotPassword"
+        android:layout_below="@id/textField4"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/btn_signin" />
 
