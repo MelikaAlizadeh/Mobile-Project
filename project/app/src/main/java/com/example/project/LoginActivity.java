@@ -8,14 +8,38 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
+
+    List<User> usersList;
+    UserDB userDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        RoomDatabase.Callback myCallBack=new RoomDatabase.Callback() {
+            @Override
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                super.onCreate(db);
+            }
+
+            @Override
+            public void onOpen(@NonNull SupportSQLiteDatabase db) {
+                super.onOpen(db);
+            }
+        };
+
+        userDB = Room.databaseBuilder(getApplicationContext(),UserDB.class,"UserDB").addCallback(myCallBack).build();
+        usersList=userDB.getUserDAO().getAllUsers();
 
         //for test before having database
         String hUsername = "m";
