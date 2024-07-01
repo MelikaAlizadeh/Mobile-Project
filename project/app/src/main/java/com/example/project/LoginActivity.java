@@ -14,39 +14,44 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
-    List<User> usersList;
-    UserDB userDB;
+//    List<User> usersList;
+//    UserDB userDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        RoomDatabase.Callback myCallBack=new RoomDatabase.Callback() {
-            @Override
-            public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                super.onCreate(db);
-            }
-
-            @Override
-            public void onOpen(@NonNull SupportSQLiteDatabase db) {
-                super.onOpen(db);
-            }
-        };
-
-        userDB = Room.databaseBuilder(getApplicationContext(),UserDB.class,"UserDB").addCallback(myCallBack).build();
-        usersList=userDB.getUserDAO().getAllUsers();
+//        RoomDatabase.Callback myCallBack=new RoomDatabase.Callback() {
+//            @Override
+//            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+//                super.onCreate(db);
+//            }
+//
+//            @Override
+//            public void onOpen(@NonNull SupportSQLiteDatabase db) {
+//                super.onOpen(db);
+//            }
+//        };
+//
+//        userDB = Room.databaseBuilder(getApplicationContext(),UserDB.class,"UserDB").addCallback(myCallBack).build();
+//        usersList=userDB.getUserDAO().getAllUsers();
 
         //for test before having database
         String hUsername = "m";
         String hPassword = "10";
 
-        EditText username = findViewById(R.id.textField);
-        EditText password = findViewById(R.id.textField2);
+        TextInputLayout usernameLayout = findViewById(R.id.textField);
+        TextInputEditText username = (TextInputEditText) usernameLayout.getEditText();
+        TextInputLayout passwordLayout = findViewById(R.id.textField2);
+        TextInputEditText password = (TextInputEditText) passwordLayout.getEditText();
 
         ImageView login = findViewById(R.id.btnsignin);
         login.setOnClickListener(new View.OnClickListener() {
