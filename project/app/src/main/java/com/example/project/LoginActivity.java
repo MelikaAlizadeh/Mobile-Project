@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 isCheckUsernameExists = false;
                 User newUser = new User(username.getText().toString(), password.getText().toString());
-                String getUserCorrectPassword = getUserFromDb(newUser,db);
+                String getUserCorrectPassword = getUserFromDb(newUser, db);
                 CheckUsernameExists(newUser, db);
                 String givenUsername = username.getText().toString();
                 String givenPassword = password.getText().toString();
@@ -45,12 +45,12 @@ public class LoginActivity extends AppCompatActivity {
                     username.setError("Field is empty!");
                 } else if (givenPassword.length() == 0) {
                     password.setError("Field is empty!");
-                }
-                else if (!isCheckUsernameExists || !getUserCorrectPassword.equals(newUser.getPassword())) {
+                } else if (!isCheckUsernameExists || !getUserCorrectPassword.equals(newUser.getPassword())) {
                     username.setError("Invalid combination of username & password!");
                     password.setError("Invalid combination of username & password!");
                 } else if (isCheckUsernameExists) {
                     Toast.makeText(getBaseContext(), "Welcome back " + givenUsername, Toast.LENGTH_LONG).show();
+                    UserDatabase.currentUser = newUser;
                     Intent main = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(main);
                     finish();
