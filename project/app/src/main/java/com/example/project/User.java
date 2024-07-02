@@ -20,7 +20,6 @@ public class User {
 
     private String region;
     private String score;
-    private String profileImage;
 
     public User() {
 
@@ -37,21 +36,12 @@ public class User {
         this.password = password;
     }
 
-    public User(String username, String password, String email, String city, String region, String profileImage) {
+    public User(String username, String password, String email, String city, String region) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.city = city;
         this.region = region;
-        this.profileImage = profileImage;
-    }
-
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
     }
 
     public String getScore() {

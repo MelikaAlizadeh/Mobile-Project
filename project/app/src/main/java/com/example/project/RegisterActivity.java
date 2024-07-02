@@ -29,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     List<User> usersList;
     boolean isCheckUsernameExists = false;
     boolean isCheckUserExists = false;
+    boolean isImageSet = false;
 
     private static final int PICK_IMAGE = 1;
     private ImageView imageView;
@@ -111,9 +112,11 @@ public class RegisterActivity extends AppCompatActivity {
                     password.setError("Field is empty!");
                 } else if (!isPasswordWeak(givenPassword).equals("success")) {
                     password.setError(isPasswordWeak(givenPassword));
-                } else {
+                } else if (!isImageSet) {
+                    Toast.makeText(getBaseContext(), "Please choose an image!", Toast.LENGTH_LONG).show();
+                }else {
                     db.addUser(newUser);
-                    Intent main = new Intent(RegisterActivity.this, MainActivity.class);
+                    Intent main = new Intent(RegisterActivity.this, ProfileActivity.class);
                     startActivity(main);
                     finish();
                 }
@@ -184,6 +187,7 @@ public class RegisterActivity extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.close();
             imagePath = imageFile.getAbsolutePath();
+            isImageSet=true;
         } catch (IOException e) {
             e.printStackTrace();
         }

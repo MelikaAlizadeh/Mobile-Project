@@ -24,33 +24,29 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-//        String username = getIntent().getStringExtra("currentUserUsername");
-//        String password = getIntent().getStringExtra("currentUserPassword");
-//        String email = getIntent().getStringExtra("currentUserEmail");
-//
-//        profileImageView = findViewById(R.id.profileImage);
-//
-//        File directory = new File(getFilesDir(), "project/images");
-//        File imageFile = new File(directory, "selected_image.jpg");
-//        FileOutputStream fos = null;
-//        try {
-//            fos = new FileOutputStream(imageFile);
-//        } catch (FileNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//        try {
-//            fos.close();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        String imagePath = imageFile.getAbsolutePath();
-//        File imgFile = new File(imagePath);
-//        if (imgFile.exists()) {
-//            profileImageView.setImageBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath()));
+        profileImageView = findViewById(R.id.imageView);
+
+        File directory = new File(getFilesDir(), "project/images");
+        File imageFile = new File(directory, "selected_image.jpg");
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(imageFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            fos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String imagePath = imageFile.getAbsolutePath();
+        File imgFile = new File(imagePath);
+        if (imgFile.exists()) {
+            profileImageView.setImageBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath()));
 //            @SuppressLint({"MissingInflatedId", "LocalSuppress"}) BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 //            bottomNavigationView.setSelectedItemId(R.id.nav_profile);
-//        }
-//
+        }
+
 //        findViewById(R.id.chip_1).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
