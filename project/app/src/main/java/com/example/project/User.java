@@ -19,6 +19,7 @@ public class User {
     private String city;
 
     private String region;
+    private String score;
 
     public User() {
 
@@ -41,6 +42,14 @@ public class User {
         this.email = email;
         this.city = city;
         this.region = region;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
     }
 
     public String getUsername() {
