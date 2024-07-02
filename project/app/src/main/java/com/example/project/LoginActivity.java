@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (isCheckUsernameExists) {
                     Toast.makeText(getBaseContext(), "Welcome back " + givenUsername, Toast.LENGTH_LONG).show();
                     UserDatabase.currentUser = newUser;
-                    Intent main = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent main = new Intent(LoginActivity.this, ProfileActivity.class);
                     startActivity(main);
                     finish();
                 }
