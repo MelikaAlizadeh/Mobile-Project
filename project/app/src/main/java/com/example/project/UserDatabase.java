@@ -22,6 +22,7 @@ public class UserDatabase extends SQLiteOpenHelper {
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_CITY = "city";
     public static final String KEY_REGION = "region";
+    public static final String KEY_Image = "image";
 
     public UserDatabase(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,7 +36,8 @@ public class UserDatabase extends SQLiteOpenHelper {
                 + KEY_PASSWORD + " TEXT, "
                 + KEY_EMAIL + " TEXT, "
                 + KEY_CITY + " TEXT, "
-                + KEY_REGION + " TEXT"
+                + KEY_REGION + " TEXT, "
+                + KEY_CITY + " TEXT"
                 + " )";
         db.execSQL(CREATE_TABLE);
     }
@@ -54,6 +56,7 @@ public class UserDatabase extends SQLiteOpenHelper {
         values.put(KEY_EMAIL, user.getEmail());
         values.put(KEY_CITY, " ");
         values.put(KEY_REGION, " ");
+        values.put(KEY_Image, " ");
         db.insert(TABLE_NAME, null, values);
         currentUser=user;
     }
@@ -62,7 +65,7 @@ public class UserDatabase extends SQLiteOpenHelper {
         User user=new User();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
-                new String[]{KEY_USERNAME, KEY_PASSWORD, KEY_EMAIL,KEY_CITY,KEY_REGION},
+                new String[]{KEY_USERNAME, KEY_PASSWORD, KEY_EMAIL,KEY_CITY,KEY_REGION,KEY_Image},
                 KEY_USERNAME + "=?",
                 new String[]{String.valueOf(username)},
                 null, null, null
@@ -75,14 +78,14 @@ public class UserDatabase extends SQLiteOpenHelper {
             user.setEmail(cursor.getString(2));
             user.setCity(cursor.getString(3));
             user.setRegion(cursor.getString(4));
+            user.setProfileImage(cursor.getString(5));
             //
         }
         cursor.close();
-        db.close();
         return user;
     }
 
-    public List<User> getAllContacts() {
+    public List<User> getAllUsers() {
         List<User> contactList = new ArrayList<User>();
         SQLiteDatabase db = this.getReadableDatabase();
         String strSQL = "select * from " + TABLE_NAME;
@@ -93,14 +96,14 @@ public class UserDatabase extends SQLiteOpenHelper {
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getString(3),
-                        cursor.getString(4));
+                        cursor.getString(4),
+                        cursor.getString(5));
                 contactList.add(user);
 
             } while (cursor.moveToNext());
 
         }
         cursor.close();
-        db.close();
         return contactList;
     }
 
@@ -112,7 +115,6 @@ public class UserDatabase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(strSQL, null);
         result = cursor.getCount();
         cursor.close();
-        db.close();
         return result;
     }
 }
