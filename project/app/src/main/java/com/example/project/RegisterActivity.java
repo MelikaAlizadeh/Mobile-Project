@@ -1,12 +1,16 @@
 package com.example.project;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +23,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -34,16 +40,17 @@ public class RegisterActivity extends AppCompatActivity {
 
     List<User> usersList;
     UserDB userDB;
+    boolean isCheckUsernameExists = false;
+    boolean isCheckUserExists = false;
+
+    private static final int PICK_IMAGE = 1;
+    private ImageView imageView;
+    private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
-        //hardcode for testing before having db
-        String hEmail = "mm";
-        String hUsername = "m";
-        String hPassword = "10";
 
         TextInputLayout usernameLayout = findViewById(R.id.textField);
         TextInputEditText username = (TextInputEditText) usernameLayout.getEditText();
@@ -69,32 +76,71 @@ public class RegisterActivity extends AppCompatActivity {
 
         userDB = Room.databaseBuilder(getApplicationContext(), UserDB.class, "userDB").addCallback(myCallBack).build();
 
+        //to check repeated password is correct or not
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String passwords = password.getText().toString();
+                String repeatPassword = passwordCheck.getText().toString();
+
+                if (!repeatPassword.equals(passwords)) {
+                    passwordCheckLayout.setBoxStrokeColor(Color.RED);
+                    passwordCheckLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
+                } else {
+                    passwordCheckLayout.setBoxStrokeColor(getResources().getColor(R.color.hardBlue));
+                    passwordCheckLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.hardBlue)));
+                }
+            }
+        };
+
+        password.addTextChangedListener(textWatcher);
+        passwordCheck.addTextChangedListener(textWatcher);
+
+        //to check rest of the fields
         ImageView register = findViewById(R.id.btnsignup);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addUserInBackground(newUser);
-                print(username.getText().toString(), password.getText().toString(), email.getText().toString());
-//                String givenUsername = username.getText().toString();
-//                String givenPassword = password.getText().toString();
-//                String givenEmail = email.getText().toString();
-//                if (givenUsername.length() == 0 || givenPassword.length() == 0 || givenEmail.length() == 0) {
-//                    Toast.makeText(getBaseContext(), "Fields are empty!", Toast.LENGTH_LONG).show();
-//                } else if (givenPassword.equals(hPassword) && givenUsername.equals(hUsername) && givenEmail.equals(hEmail)) {
-//                    Toast.makeText(getBaseContext(), "You already have an account!", Toast.LENGTH_LONG).show();
-//                } else if (!isUsernameValid(givenUsername)) {
-//                    Toast.makeText(getBaseContext(), "Invalid username format!", Toast.LENGTH_LONG).show();
-//                } else if (!isPasswordWeak(givenPassword).equals("success")) {
-//                    Toast.makeText(getBaseContext(), isPasswordWeak(givenPassword), Toast.LENGTH_LONG).show();
-//                } else if (!isEmailValid(givenEmail)) {
-//                    Toast.makeText(getBaseContext(), "Invalid email format!", Toast.LENGTH_LONG).show();
-//                } else {
-//                    //TODO: add newUser to db
-//                    Intent splash = new Intent(RegisterActivity.this, MainActivity.class);
-//                    startActivity(splash);
-//                    finish();
-//                }
+                isCheckUsernameExists = false;
+                isCheckUserExists = false;
+                checkAllUsersInBackground(newUser);
+//                print(username.getText().toString(), password.getText().toString(), email.getText().toString());
+                String givenUsername = username.getText().toString();
+                String givenPassword = password.getText().toString();
+                String givenEmail = email.getText().toString();
+
+                if (givenUsername.length() == 0) {
+                    username.setError("Field is empty!");
+                } else if (isCheckUsernameExists) {
+                    username.setError("This username already exists!");
+                } else if (!isUsernameValid(givenUsername)) {
+                    username.setError("Invalid username format!");
+                } else if (givenPassword.length() == 0) {
+                    password.setError("Field is empty!");
+                } else if (!isPasswordWeak(givenPassword).equals("success")) {
+                    password.setError(isPasswordWeak(givenPassword));
+                } else if (givenEmail.length() == 0) {
+                    email.setError("Field is empty!");
+                } else if (isCheckUserExists) {
+                    email.setError("You already have an account!");
+                } else if (!isEmailValid(givenEmail)) {
+                    email.setError("Invalid email format!");
+                } else {
+                    addUserInBackground(newUser);
+                    Intent splash = new Intent(RegisterActivity.this, MainActivity.class);
+                    startActivity(splash);
+                    finish();
+                }
             }
         });
 
@@ -107,6 +153,10 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        imageView = findViewById(R.id.signUpHeader);
+
+        findViewById(R.id.chip_1).setOnClickListener(v -> openGallery());
     }
 
     public void addUserInBackground(User user) {
@@ -129,120 +179,98 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void getUsersInBackground(User user) {
+    public void checkAllUsersInBackground(User checkUser) {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         executorService.execute(new Runnable() {
             @Override
             public void run() {
                 //background task
-                userDB.getUserDAO().addUser(user);
+                usersList = userDB.getUserDAO().getAllUsers();
 
                 //on finishing task
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getBaseContext(), "Welcome", Toast.LENGTH_LONG).show();
+                        for (User u : usersList) {
+                            if (u.getUsername().equals(checkUser.getUsername())) {
+                                isCheckUsernameExists = true;
+                                if (u.getEmail().equals(checkUser.getEmail())) {
+                                    isCheckUserExists = true;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 });
             }
         });
     }
 
-    //
+        private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            imageView.setImageURI(selectedImage);
+            saveImageToProjectFolder(selectedImage);
+        }
+    }
+
+    private void saveImageToProjectFolder(Uri selectedImageUri) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+            File directory = new File(getFilesDir(), "project/images");
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            File imageFile = new File(directory, "selected_image.jpg");
+            FileOutputStream fos = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.close();
+            imagePath = imageFile.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private void print(String givenUsername, String givenPassword, String givenEmail) {
         Toast.makeText(getBaseContext(), "Welcome " + givenUsername + "\n" + givenPassword + "\n" + givenEmail, Toast.LENGTH_LONG).show();
     }
-//
-//    public boolean isUsernameValid(String username) {
-//        if (username.matches("^[a-zA-Z0-9_]+$"))
-//            return true;
-//        else
-//            return false;
-//    }
-//
-//    public String isPasswordWeak(String password) {
-//        if (password.length() < 6)
-//            return "The password is too short!";
-//        else if (!password.matches("(.*[a-z].*)"))
-//            return "Password should have at least one lowercase letter!";
-//        else if (!password.matches("(.*[A-Z].*)"))
-//            return "Password should have at least one uppercase letter!";
-//        else if (!password.matches("(.*[0-9].*)"))
-//            return "Password should have at least one digit!";
-//        else if (!password.matches("(.*[^a-zA-Z\\d\\s:].*)"))
-//            return "Password should have least one alphanumeric character!";
-//        else
-//            return "success";
-//    }
-//
-//    public boolean isEmailValid(String email) {
-//        if (email.matches("^(?<firstGroup>\\S+)@(?<secondGroup>\\S+)\\.(?<thirdGroup>\\S+)$"))
-//            return true;
-//        else
-//            return false;
-//    }
+
+    public boolean isUsernameValid(String username) {
+        if (username.matches("^[a-zA-Z0-9_]+$"))
+            return true;
+        else
+            return false;
+    }
+
+    public String isPasswordWeak(String password) {
+        if (password.length() < 6)
+            return "The password is too short!";
+        else if (!password.matches("(.*[a-z].*)"))
+            return "Password should have at least one lowercase letter!";
+        else if (!password.matches("(.*[A-Z].*)"))
+            return "Password should have at least one uppercase letter!";
+        else if (!password.matches("(.*[0-9].*)"))
+            return "Password should have at least one digit!";
+        else if (!password.matches("(.*[^a-zA-Z\\d\\s:].*)"))
+            return "Password should have least one alphanumeric character!";
+        else
+            return "success";
+    }
+
+    public boolean isEmailValid(String email) {
+        if (email.matches("^(?<firstGroup>\\S+)@(?<secondGroup>\\S+)\\.(?<thirdGroup>\\S+)$"))
+            return true;
+        else
+            return false;
+    }
 }
-
-
-//TODO: change checking parts according to the database and its functions
-
-//public class RegisterActivity extends AppCompatActivity {
-//
-//    private static final int PICK_IMAGE = 1;
-//    private ImageView imageView;
-//    private String imagePath;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_register);
-//
-//        imageView = findViewById(R.id.imageView);
-//
-//        findViewById(R.id.button).setOnClickListener(v -> openGallery());
-//
-//        Button b=findViewById(R.id.button2);
-//        b.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(RegisterActivity.this, ProfileActivity.class);
-//                intent.putExtra("imagePath", imagePath);
-//                startActivity(intent);
-//            }
-//        });
-//    }
-//
-//    private void openGallery() {
-//        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        startActivityForResult(intent, PICK_IMAGE);
-//    }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
-//            Uri selectedImage = data.getData();
-//            imageView.setImageURI(selectedImage);
-//            saveImageToProjectFolder(selectedImage);
-//        }
-//    }
-//
-//    private void saveImageToProjectFolder(Uri selectedImageUri) {
-//        try {
-//            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-//            File directory = new File(getFilesDir(), "project/images");
-//            if (!directory.exists()) {
-//                directory.mkdirs();
-//            }
-//            File imageFile = new File(directory, "selected_image.jpg");
-//            FileOutputStream fos = new FileOutputStream(imageFile);
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-//            fos.close();
-//            imagePath = imageFile.getAbsolutePath();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//}
