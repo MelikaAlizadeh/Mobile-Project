@@ -39,7 +39,6 @@ import java.util.concurrent.Executors;
 public class RegisterActivity extends AppCompatActivity {
 
     List<User> usersList;
-    UserDB userDB;
     boolean isCheckUsernameExists = false;
     boolean isCheckUserExists = false;
 
@@ -51,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        UserDatabase db = new UserDatabase(this);
 
         TextInputLayout usernameLayout = findViewById(R.id.textField);
         TextInputEditText username = (TextInputEditText) usernameLayout.getEditText();
@@ -60,21 +60,6 @@ public class RegisterActivity extends AppCompatActivity {
         TextInputEditText password = (TextInputEditText) passwordLayout.getEditText();
         TextInputLayout passwordCheckLayout = findViewById(R.id.textField4);
         TextInputEditText passwordCheck = (TextInputEditText) passwordCheckLayout.getEditText();
-        User newUser = new User(username.getText().toString(), password.getText().toString(), email.getText().toString());
-
-        RoomDatabase.Callback myCallBack = new RoomDatabase.Callback() {
-            @Override
-            public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                super.onCreate(db);
-            }
-
-            @Override
-            public void onOpen(@NonNull SupportSQLiteDatabase db) {
-                super.onOpen(db);
-            }
-        };
-
-        userDB = Room.databaseBuilder(getApplicationContext(), UserDB.class, "userDB").addCallback(myCallBack).build();
 
         //to check repeated password is correct or not
         TextWatcher textWatcher = new TextWatcher() {
@@ -113,34 +98,47 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 isCheckUsernameExists = false;
                 isCheckUserExists = false;
-                checkAllUsersInBackground(newUser);
+//                TODO: check if user already exists
+                User newUser=new User(username.getText().toString(), password.getText().toString(), email.getText().toString());
 //                print(username.getText().toString(), password.getText().toString(), email.getText().toString());
+                print(newUser.getUsername(), newUser.getPassword(), newUser.getEmail());
                 String givenUsername = username.getText().toString();
                 String givenPassword = password.getText().toString();
                 String givenEmail = email.getText().toString();
+                db.addUser(newUser);
+//                usersList=db.getAllContacts();
+//                StringBuilder sb=new StringBuilder();
+//                for(User u:usersList){
+//                    sb.append(u.getUsername()+"\n");
+//                }
+//                String f=sb.toString();
+//                Toast.makeText(getBaseContext(), f, Toast.LENGTH_LONG).show();
 
-                if (givenUsername.length() == 0) {
-                    username.setError("Field is empty!");
-                } else if (isCheckUsernameExists) {
-                    username.setError("This username already exists!");
-                } else if (!isUsernameValid(givenUsername)) {
-                    username.setError("Invalid username format!");
-                } else if (givenPassword.length() == 0) {
-                    password.setError("Field is empty!");
-                } else if (!isPasswordWeak(givenPassword).equals("success")) {
-                    password.setError(isPasswordWeak(givenPassword));
-                } else if (givenEmail.length() == 0) {
-                    email.setError("Field is empty!");
-                } else if (isCheckUserExists) {
-                    email.setError("You already have an account!");
-                } else if (!isEmailValid(givenEmail)) {
-                    email.setError("Invalid email format!");
-                } else {
-                    addUserInBackground(newUser);
-                    Intent splash = new Intent(RegisterActivity.this, MainActivity.class);
-                    startActivity(splash);
-                    finish();
-                }
+//                if (givenUsername.length() == 0) {
+//                    username.setError("Field is empty!");
+//                } else if (isCheckUsernameExists) {
+//                    username.setError("This username already exists!");
+//                } else if (!isUsernameValid(givenUsername)) {
+//                    username.setError("Invalid username format!");
+//                } else if (givenPassword.length() == 0) {
+//                    password.setError("Field is empty!");
+//                } else if (!isPasswordWeak(givenPassword).equals("success")) {
+//                    password.setError(isPasswordWeak(givenPassword));
+//                } else if (givenEmail.length() == 0) {
+//                    email.setError("Field is empty!");
+//                } else if (isCheckUserExists) {
+//                    email.setError("You already have an account!");
+//                } else if (!isEmailValid(givenEmail)) {
+//                    email.setError("Invalid email format!");
+//                } else {
+//                    //TODO: add user to db
+//                    Intent main = new Intent(RegisterActivity.this, MainActivity.class);
+//                    main.putExtra("currentUserUsername",newUser.getUsername());
+//                    main.putExtra("currentUserPassword",newUser.getPassword());
+//                    main.putExtra("currentUserEmail",newUser.getEmail());
+//                    startActivity(main);
+//                    finish();
+//                }
             }
         });
 
@@ -154,57 +152,9 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        imageView = findViewById(R.id.signUpHeader);
-
-        findViewById(R.id.chip_1).setOnClickListener(v -> openGallery());
-    }
-
-    public void addUserInBackground(User user) {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                //background task
-                userDB.getUserDAO().addUser(user);
-
-                //on finishing task
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getBaseContext(), "Welcome", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
-    }
-
-    public void checkAllUsersInBackground(User checkUser) {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                //background task
-                usersList = userDB.getUserDAO().getAllUsers();
-
-                //on finishing task
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (User u : usersList) {
-                            if (u.getUsername().equals(checkUser.getUsername())) {
-                                isCheckUsernameExists = true;
-                                if (u.getEmail().equals(checkUser.getEmail())) {
-                                    isCheckUserExists = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        });
+//        imageView = findViewById(R.id.signUpHeader);
+//
+//        findViewById(R.id.chip_1).setOnClickListener(v -> openGallery());
     }
 
         private void openGallery() {

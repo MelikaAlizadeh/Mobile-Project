@@ -8,46 +8,39 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "user")
 public class User {
-    @ColumnInfo(name = "username")
-    @PrimaryKey(autoGenerate = false)
-    @NonNull
+
     private String username;
-    @ColumnInfo(name = "password")
+
     private String password;
-    @ColumnInfo(name = "email")
+
     private String email;
-    @ColumnInfo(name = "name")
-    private String name;
-    @ColumnInfo(name = "city")
+
     private String city;
-    @ColumnInfo(name = "region")
+
     private String region;
 
     public User() {
 
     }
 
-    @Ignore
-    public User(@NonNull String username, String password, String email, String name, String city, String region, String type) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.name = name;
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String username, String password, String email, String city, String region) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
         this.city = city;
         this.region = region;
-    }
-
-    public User(@NonNull String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
-
-    public User(@NonNull String username, String password) {
-        this.username = username;
-        this.password = password;
     }
 
     public String getUsername() {
@@ -72,14 +65,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getCity() {

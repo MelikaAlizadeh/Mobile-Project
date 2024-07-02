@@ -26,7 +26,6 @@ import java.util.concurrent.Executors;
 public class LoginActivity extends AppCompatActivity {
 
     List<User> usersList;
-    UserDB userDB;
     boolean isCheckUsernameExists = false;
     boolean isCheckUserExists = false;
 
@@ -34,20 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        RoomDatabase.Callback myCallBack = new RoomDatabase.Callback() {
-            @Override
-            public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                super.onCreate(db);
-            }
-
-            @Override
-            public void onOpen(@NonNull SupportSQLiteDatabase db) {
-                super.onOpen(db);
-            }
-        };
-
-        userDB = Room.databaseBuilder(getApplicationContext(), UserDB.class, "userDB").addCallback(myCallBack).build();
 
 
         TextInputLayout usernameLayout = findViewById(R.id.textField);
@@ -62,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 isCheckUsernameExists = false;
                 isCheckUserExists = false;
-                checkAllUsersInBackground(newUser);
+//                checkAllUsersInBackground(newUser);
                 String givenUsername = username.getText().toString();
                 String givenPassword = password.getText().toString();
 
@@ -90,33 +75,6 @@ public class LoginActivity extends AppCompatActivity {
                 Intent splash = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(splash);
                 finish();
-            }
-        });
-    }
-
-    public void checkAllUsersInBackground(User checkUser) {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                //background task
-                usersList = userDB.getUserDAO().getAllUsers();
-
-                //on finishing task
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (User u : usersList) {
-                            if (u.getUsername().equals(checkUser.getUsername())) {
-                                if(u.getPassword().equals(checkUser.getPassword())){
-                                    isCheckUserExists=true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                });
             }
         });
     }
