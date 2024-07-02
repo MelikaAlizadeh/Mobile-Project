@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FinalResultActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_ending_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_final_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_play_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Play again"/>
+
+<!--        <com.google.android.material.chip.Chip-->
+<!--            android:id="@+id/chip_back"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Back"/>-->
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
