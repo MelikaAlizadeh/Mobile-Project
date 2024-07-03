@@ -18,6 +18,7 @@ import java.util.Set;
 public class GameActivity extends AppCompatActivity {
     int numberOfAllQuestions;
     int numberOfCorrectAnswers;
+    int numberOfWrongs;
     TextView tv;
     CardView[] cards = new CardView[5];
     int correctAnswer;
@@ -51,7 +52,7 @@ public class GameActivity extends AppCompatActivity {
             Intent intent = new Intent(this, FinalResultActivity.class);
             intent.putExtra("number of all qs", numberOfAllQuestions);
             intent.putExtra("number of corrects", numberOfCorrectAnswers);
-            intent.putExtra("end message", "Time is over!");
+            intent.putExtra("number of wrongs", numberOfWrongs);
             startActivity(intent);
             finish();
         }, 20000);
@@ -65,9 +66,11 @@ public class GameActivity extends AppCompatActivity {
                 numberOfAllQuestions++;
                 if (finalI == correctAnswer) {
                     cards[finalI1].setCardBackgroundColor(Color.GREEN);
+                    numberOfCorrectAnswers++;
                 } else {
                     cards[finalI1].setCardBackgroundColor(Color.RED);
                     cards[correctAnswer].setCardBackgroundColor(Color.GREEN);
+                    numberOfWrongs++;
                 }
             });
 
@@ -106,7 +109,7 @@ public class GameActivity extends AppCompatActivity {
         Random random = new Random();
 
         while (uniqueIntegers.size() < 10) {
-            int randomInt = random.nextInt(35);
+            int randomInt = random.nextInt(36);
             uniqueIntegers.add(randomInt);
         }
 
@@ -220,7 +223,9 @@ public class GameActivity extends AppCompatActivity {
         qArray[34] = new Question("Who wrote “Crime and Punishment”?",
                 "Leo Tolstoy", "Fyodor Dostoevsky",
                 "Anton Chekhov", "Ivan Turgenev", 2);
-
+        qArray[35] = new Question("In what year was the United Nations (UN) founded?",
+                "1945", "1919",
+                "1956", "1961", 1);
 
 
     }

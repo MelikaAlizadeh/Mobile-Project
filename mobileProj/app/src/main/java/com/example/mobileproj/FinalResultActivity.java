@@ -12,8 +12,10 @@ import com.google.android.material.chip.Chip;
 public class FinalResultActivity extends AppCompatActivity {
     int numberOfAllQs;
     int numberOfCorrects = 0;
-    TextView resultTextView;
-    TextView endingReasonTextView;
+    int numberOfWrongs = 0;
+    TextView trueTextView;
+    TextView wrongTextView;
+    TextView allTextView;
     Chip playAgain;
     String text;
 
@@ -24,22 +26,19 @@ public class FinalResultActivity extends AppCompatActivity {
 
         numberOfAllQs = getIntent().getIntExtra("number of all qs", 0);
         numberOfCorrects = getIntent().getIntExtra("number of corrects", 0);
+        numberOfWrongs = getIntent().getIntExtra("number of wrongs", 0);
 
-        resultTextView = findViewById(R.id.tv_final_result);
+        allTextView = findViewById(R.id.tv_ending_reason);
         playAgain = findViewById(R.id.chip_play_again);
-        endingReasonTextView = findViewById(R.id.tv_ending_reason);
+        trueTextView = findViewById(R.id.tv_final_result_true);
+        wrongTextView = findViewById(R.id.tv_final_result_false);
 
-        text = getIntent().getStringExtra("end message");
-        endingReasonTextView.setText(text);
-
-        if (text.equals("Time is over!")) {
-            text = "You answered " + numberOfAllQs + " questions.\n"
-                    + numberOfCorrects + " of them were correct.";
-            resultTextView.setText(text);
-        } else {
-            text = "\n" + numberOfCorrects + " of them were correct.";
-            resultTextView.setText(text);
-        }
+        String text = "You answered " + numberOfAllQs + ".";
+        allTextView.setText(text);
+        text = Integer.toString(numberOfCorrects);
+        trueTextView.setText(text);
+        text = Integer.toString(numberOfWrongs);
+        wrongTextView.setText(text);
 
         playAgain.setOnClickListener(v -> {
             Intent intent = new Intent(FinalResultActivity.this,
