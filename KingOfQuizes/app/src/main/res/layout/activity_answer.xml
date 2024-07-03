@@ -137,5 +137,5 @@
         android:layout_margin="24dp"
         android:layout_marginTop="50dp"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/large_fab" />
+        app:srcCompat="@drawable/red_fab" />
 </RelativeLayout>
