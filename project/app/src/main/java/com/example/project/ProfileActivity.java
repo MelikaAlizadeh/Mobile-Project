@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
     List<User> usersList;
+    User selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +47,8 @@ public class ProfileActivity extends AppCompatActivity {
         findViewById(R.id.chip_1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserDatabase.currentUser=null;
-                Intent i=new Intent(ProfileActivity.this,LoginActivity.class);
+                UserDatabase.currentUser = null;
+                Intent i = new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -54,16 +56,23 @@ public class ProfileActivity extends AppCompatActivity {
 
         TextInputLayout cityLayout = findViewById(R.id.textField1);
         TextInputEditText city = (TextInputEditText) cityLayout.getEditText();
-        String cityStr=city.getText().toString();
+        String cityStr = city.getText().toString();
         TextInputLayout regionLayout = findViewById(R.id.textField2);
         TextInputEditText region = (TextInputEditText) regionLayout.getEditText();
-        String regionStr=region.getText().toString();
+        String regionStr = region.getText().toString();
+
+        selected = UserDatabase.currentUser;
+        selected=findCorrectUser(selected,db);
+
+        TextView name=findViewById(R.id.profileName);
+        TextView mail=findViewById(R.id.profileEmail);
+        name.setText(selected.getUsername());
+        mail.setText(selected.getEmail());
 
         findViewById(R.id.chip_2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!(cityStr.length()==0||regionStr.length()==0)){
-                    User selected=UserDatabase.currentUser;
+                if (!(cityStr.length() == 0 || regionStr.length() == 0)) {
                     db.deleteUser(selected);
                     selected.setCity(cityStr);
                     selected.setRegion(regionStr);
@@ -71,5 +80,15 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private User findCorrectUser(User newUser, UserDatabase db) {
+        usersList = db.getAllUsers();
+        for (User u : usersList) {
+            if (u.getUsername().equals(newUser.getUsername()) && u.getPassword().equals(newUser.getPassword())) {
+                return u;
+            }
+        }
+        return newUser;
     }
 }
