@@ -43,7 +43,7 @@ public class FinalResultActivity extends AppCompatActivity {
 
         playAgain.setOnClickListener(v -> {
             Intent intent = new Intent(FinalResultActivity.this,
-                    QuestionsActivity.class);
+                    GameActivity.class);
             startActivity(intent);
             finish();
         });
