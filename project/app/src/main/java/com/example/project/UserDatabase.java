@@ -112,4 +112,11 @@ public class UserDatabase extends SQLiteOpenHelper {
         cursor.close();
         return result;
     }
+
+    public void deleteUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME,
+                KEY_USERNAME+ "=?",
+                new String[]{user.getUsername()});
+    }
 }

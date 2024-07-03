@@ -116,7 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Please choose an image!", Toast.LENGTH_LONG).show();
                 }else {
                     db.addUser(newUser);
-                    Intent main = new Intent(RegisterActivity.this, ProfileActivity.class);
+                    Intent main = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(main);
                     finish();
                 }
