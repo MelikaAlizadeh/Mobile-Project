@@ -1,0 +1,11 @@
+	\setLTR
+$
+A = \rho_{busTrip_customers/COUNT(*)}(\prod_{COUNT(*),state}(\\customer\bowtie_{customerID}(\\\sigma_{(state=paid\land 
+1403.01.01 \leq	startDate \leq 1403.01.13)}(busTrip\bowtie_{tripNumber}tripReservation)))) \\ \\
+B = \rho_{trainTrip_customers/COUNT(*)}(\prod_{COUNT(*),state}(\\customer\bowtie_{customerID}(\\\sigma_{(state=paid\land 
+	1403.01.01 \leq	startDate \leq 1403.01.13)}(trainTrip\bowtie_{tripNumber}tripReservation))))\\ \\
+C = \rho_{airTrip_customers/COUNT(*)}(\prod_{COUNT(*),state}(\\customer\bowtie_{customerID}(\\\sigma_{(state=paid\land 
+	1403.01.01 \leq	startDate \leq 1403.01.13)}(airTrip\bowtie_{tripNumber}tripReservation)))) \\ \\
+\prod_{airTrip_customers,trainTrip_customers,busTrip_customers}(A\bowtie_{state}B\bowtie_{state}C)
+\\ \\$
+\setRTL

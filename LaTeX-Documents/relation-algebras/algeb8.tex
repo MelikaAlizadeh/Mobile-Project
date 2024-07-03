@@ -1,0 +1,8 @@
+\setLTR
+$
+cityCount = \prod_{COUNT(*),destinationCity}(\gamma_{destinationCity}(\sigma_{state=paid}(tripReservation\bowtie_{tripID}trip))) \\ \\ 
+sortedCityCount = \tau_{COUNT(*)}(cityCount) \\ \\
+cityCancelledCount = \prod_{COUNT(*),destinationCity,hotel.type}(\gamma_{destinationCity}( \sigma_{state='cancelled\%'}(\\hotelReservation\bowtie_{hotelID}hotel))\bowtie_{hotel.city=sortedCityCount.destinationCity}sortedCityCount) \\ \\
+\prod_{COUNT(*)}(\gamma_{hotel.type}(cityCancelledCount))
+\\ \\$
+\setRTL

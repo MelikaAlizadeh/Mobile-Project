@@ -1,0 +1,15 @@
+\setLTR
+$
+destinationHotels = \sigma_{airTripName='W1296'\land startDate=1403.01.06}(
+hotel \bowtie_{city=destination_city}airTrip) \\ \\
+emptyRooms = \prod_{roomID,hotelID}(
+destinationHotel \bowtie_{hotelID}room)
+-
+\prod_{roomID,hotelID}(room\bowtie_{hotelID}destinationHotel\bowtie_{hotelID}hotelReservation) \\ \\
+allHotelsEmptyRooms = \prod_{COUNT(*),hotelID}(\gamma_{hotelID}(emptyRooms)) \\ \\
+maxEmpty = allHotelsEmptyRooms - \sigma_{
+COUNT(*)\le COUNT2}(\\allHotelsEmptyRooms \times \rho_{
+allHotelsEmptyRooms2/allHotelsEmptyRooms , COUNT2/COUNT(*)}(allHotelsEmptyRooms)) \\ \\
+\prod_{userID}(\sigma_{airTripName='W1296'\land startDate=1403.01.06}(\\customer\bowtie_{userID=customerID}airTrip\bowtie_{hotelID}hotelReservation\bowtie_{hotelID}maxEmpty))
+\\ \\$
+\setRTL

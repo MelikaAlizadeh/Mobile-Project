@@ -1,0 +1,13 @@
+\setLTR
+$
+\prod_{SUM(discountAmount)}(\\
+\prod_{discountAmount}(\\
+\sigma_{(type \ LIKE \ 'customerclub\%') \land (1403.01.01 \le reservationDate \le 1403.01.31)}(\\tripReservation\bowtie_{reserveID}walletWalletTransaction\bowtie_{discountCodeID}constantDiscountCode)
+)
+\\ \bigcup \\
+\prod_{discountAmount}(\\
+\sigma_{(type \ LIKE \ 'customerclub\%') \land (1403.01.01 \le reservationDate \le 1403.01.31)}(\\tripReservation\bowtie_{reserveID}walletWalletTransaction\bowtie_{discountCodeID}percentDiscountCode)
+)
+)
+\\ \\$
+\setRTL
