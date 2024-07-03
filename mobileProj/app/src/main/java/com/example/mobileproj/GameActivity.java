@@ -1,23 +1,15 @@
 package com.example.mobileproj;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
@@ -25,7 +17,7 @@ public class GameActivity extends AppCompatActivity {
     int numberOfCorrectAnswers;
 
     TextView tv;
-    Chip[] chips = new Chip[5];
+    CardView[] cards = new CardView[5];
     int correctAnswer;
     TextView resultTV;
     TextView messageTV;
@@ -40,10 +32,10 @@ public class GameActivity extends AppCompatActivity {
         fillQuestionArray(questionArray);
 
         tv = findViewById(R.id.q_tv);
-        chips[1] = findViewById(R.id.op1);
-        chips[2] = findViewById(R.id.op2);
-        chips[3] = findViewById(R.id.op3);
-        chips[4] = findViewById(R.id.op4);
+        cards[1] = (android.widget.TextView) findViewById(R.id.op1);
+        cards[2] = findViewById(R.id.op2);
+        cards[3] = findViewById(R.id.op3);
+        cards[4] = findViewById(R.id.op4);
         resultTV = findViewById(R.id.tv_result);
         messageTV = findViewById(R.id.tv_message);
         nextChip = findViewById(R.id.chip_next);
@@ -59,11 +51,11 @@ public class GameActivity extends AppCompatActivity {
             finish();
         }, 20000);
 
-        showNewQuestion(tv, chips[1], chips[2], chips[3], chips[4]);
+        showNewQuestion(tv, cards[1], cards[2], cards[3], cards[4]);
 
         for (int i = 1; i < 5; i++) {
             int finalI = i;
-            chips[i].setOnClickListener(v -> {
+            cards[i].setOnClickListener(v -> {
                 numberOfAllQuestions++;
                 if (finalI == correctAnswer) {
                     numberOfCorrectAnswers++;
@@ -71,16 +63,12 @@ public class GameActivity extends AppCompatActivity {
                     tmp = "CORRECT!";
                     resultTV.setText(tmp);
                 } else {
-                    String tmp = "WRONG!";
-                    resultTV.setText(tmp);
-                    tmp = "The correct answer was "
-                            + getIntent().getStringExtra("correctAnswer");
-                    messageTV.setText(tmp);
+
                 }
             });
 
             nextChip.setOnClickListener(v -> {
-                showNewQuestion(tv, chips[1], chips[2], chips[3], chips[4]);
+                showNewQuestion(tv, cards[1], cards[2], cards[3], cards[4]);
             });
         }
 
@@ -92,7 +80,7 @@ public class GameActivity extends AppCompatActivity {
         //TODO: read question from db
 
         Random random = new Random();
-        int qNumber = random.nextInt(10);
+        int qNumber = random.nextInt(21);
         Question question = questionArray[qNumber];
 
 //        StringBuilder txt = new StringBuilder();
@@ -213,8 +201,52 @@ public class GameActivity extends AppCompatActivity {
                 "Bamboo", "Eucalyptus",
                 "Aloe Vera", "Banana", 2);
         qArray[21] = new Question("When the First Afghan War took place in:",
-                "1839", "1843",
-                "1833", "1848", 1);
+                "Brioche", "Baguette",
+                "White bread", "Ciabatta", 2);
+        qArray[22] = new Question("What is the official currency of Japan?",
+                "Won", "Yuan",
+                "Yen", "Dollars", 3);
+        qArray[23] = new Question("What is the phobia of thunder and rain?",
+                "Agoraphobia", "Ombrophobia",
+                "Acrophobia", "Claustrophobia", 2);
+        qArray[24] = new Question("What does Carpe Diem mean in Latin?",
+                "Enjoy the moment", "Have no fear",
+                "Sorry I blew it", "Hello", 1);
+        qArray[25] = new Question("Which one of the following countries is not in Africa?",
+                "Morocco", "Yemen",
+                "Sudan", "Algeria", 2);
+        qArray[26] = new Question("What is considered the lung of the Earth?",
+                "Amazon rainforest", "The Mississippi River",
+                "The Sahara", "Everest", 1);
+        qArray[27] = new Question("Where does the Sushi come from?",
+                "Japan", "China",
+                "America", "South Korea", 1);
+        qArray[28] = new Question("In which century the Mona Lisa was painted?",
+                "18th century", "15th century",
+                "16th century", "14th century",
+                3);
+        qArray[29] = new Question("Who wrote the “Great Gatsby” novel?",
+                "Leo Tolstoy", "Hemingway",
+                "Stephen King", "F. Scott Fitzgerald",
+                4);
+        qArray[30] = new Question("Which is the richest country in the world?",
+                "Qatar", "Russia",
+                "The USA", "The UAE", 1);
+        qArray[31] = new Question("Which county is the biggest grower of coffee?",
+                "Spain", "India",
+                "Ethiopia", "Brazil", 4);
+        qArray[32] = new Question("How many bones are in the body of an adult human?",
+                "330", "206",
+                "250", "210", 2);
+        qArray[33] = new Question("When the humans use more facial muscles?",
+                "While smiling", "While frowning",
+                "While sleeping", "While talking",
+                2);
+        qArray[34] = new Question("Who wrote “Crime and Punishment”?",
+                "Leo Tolstoy", "Fyodor Dostoevsky",
+                "Anton Chekhov", "Ivan Turgenev", 2);
+
+
 
     }
 }
