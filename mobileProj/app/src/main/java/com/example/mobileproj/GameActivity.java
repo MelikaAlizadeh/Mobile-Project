@@ -4,25 +4,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
 
 import com.google.android.material.chip.Chip;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class GameActivity extends AppCompatActivity {
     int numberOfAllQuestions;
     int numberOfCorrectAnswers;
-
     TextView tv;
     CardView[] cards = new CardView[5];
     int correctAnswer;
-    TextView resultTV;
-    TextView messageTV;
     Chip nextChip;
     Question[] questionArray = new Question[100];
+    int currentNumber;
+    Set<Integer> uniqueIntegers = new HashSet<>();
+    TextView[] opTVs = new TextView[5];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +35,15 @@ public class GameActivity extends AppCompatActivity {
         fillQuestionArray(questionArray);
 
         tv = findViewById(R.id.q_tv);
-        cards[1] = (android.widget.TextView) findViewById(R.id.op1);
-        cards[2] = findViewById(R.id.op2);
-        cards[3] = findViewById(R.id.op3);
-        cards[4] = findViewById(R.id.op4);
-        resultTV = findViewById(R.id.tv_result);
-        messageTV = findViewById(R.id.tv_message);
-        nextChip = findViewById(R.id.chip_next);
+        cards[1] = findViewById(R.id.card_op1);
+        cards[2] = findViewById(R.id.card_op2);
+        cards[3] = findViewById(R.id.card_op3);
+        cards[4] = findViewById(R.id.card_op4);
+        opTVs[1] = findViewById(R.id.op1);
+        opTVs[2] = findViewById(R.id.op2);
+        opTVs[3] = findViewById(R.id.op3);
+        opTVs[4] = findViewById(R.id.op4);
+        nextChip = findViewById(R.id.chips_next);
 
 
         Handler handler = new Handler();
@@ -51,24 +56,26 @@ public class GameActivity extends AppCompatActivity {
             finish();
         }, 20000);
 
-        showNewQuestion(tv, cards[1], cards[2], cards[3], cards[4]);
+        showNewQuestion(tv, opTVs[1], opTVs[2], opTVs[3], opTVs[4]);
 
         for (int i = 1; i < 5; i++) {
             int finalI = i;
+            int finalI1 = i;
             cards[i].setOnClickListener(v -> {
                 numberOfAllQuestions++;
                 if (finalI == correctAnswer) {
-                    numberOfCorrectAnswers++;
-                    String tmp;
-                    tmp = "CORRECT!";
-                    resultTV.setText(tmp);
+                    cards[finalI1].setCardBackgroundColor(Color.GREEN);
                 } else {
-
+                    cards[finalI1].setCardBackgroundColor(Color.RED);
+                    cards[correctAnswer].setCardBackgroundColor(Color.GREEN);
                 }
             });
 
             nextChip.setOnClickListener(v -> {
-                showNewQuestion(tv, cards[1], cards[2], cards[3], cards[4]);
+                showNewQuestion(tv, opTVs[1], opTVs[2], opTVs[3], opTVs[4]);
+                for (int k = 1; k < 5; k++) {
+                    cards[k].setBackgroundColor(@color/lightBlue);
+                }
             });
         }
 
@@ -76,34 +83,10 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    private void showNewQuestion(TextView tv, Chip chip1, Chip chip2, Chip chip3, Chip chip4) {
-        //TODO: read question from db
+    private void showNewQuestion(TextView tv, TextView chip1, TextView chip2, TextView chip3, TextView chip4) {
 
-        Random random = new Random();
-        int qNumber = random.nextInt(21);
-        Question question = questionArray[qNumber];
-
-//        StringBuilder txt = new StringBuilder();
-//        try {
-//            AssetManager assetManager = getAssets();
-//            Toast.makeText(getBaseContext(), assetManager.toString(), Toast.LENGTH_SHORT).show();
-//            InputStream inputStream = assetManager.open("qs_db.txt");
-//            BufferedReader myReader = new BufferedReader(new InputStreamReader(inputStream));
-//            String aDataRow = "";
-//            while ((aDataRow = myReader.readLine()) != null) {
-//                txt.append(aDataRow);
-//            }
-//            myReader.close();
-//        } catch (FileNotFoundException e) {
-//            Toast.makeText(getBaseContext(), "errorrrrrrrrrrr", Toast.LENGTH_SHORT).show();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-
-//        Question question = new Question()
-
-//        Question question = new Question("This is a question", "option1",
-//                "option2", "option3", "option4", 1);
+        Question question = questionArray[currentNumber];
+        currentNumber++;
         String questionText = question.getText();
         String option1Text = question.getOption1();
         String option2Text = question.getOption2();
@@ -119,21 +102,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void fillQuestionArray(Question[] qArray) {
-//        StringBuilder txt = new StringBuilder();
-//        try {
-//            File myFile = new File("./questionsDB.txt");
-//            FileInputStream fIn = new FileInputStream(myFile);
-//            BufferedReader myReader = new BufferedReader(new InputStreamReader(fIn));
-//            String aDataRow = "";
-//            while ((aDataRow = myReader.readLine()) != null) {
-//                txt.append(aDataRow);
-//            }
-//            myReader.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+
+        Random random = new Random();
+
+        while (uniqueIntegers.size() < 10) {
+            int randomInt = random.nextInt(35);
+            uniqueIntegers.add(randomInt);
+        }
 
         qArray[0] = new Question("In what year did the Great October " +
                 "Socialist Revolution take place?",
