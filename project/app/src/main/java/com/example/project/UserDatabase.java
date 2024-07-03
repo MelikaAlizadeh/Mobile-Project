@@ -78,11 +78,10 @@ public class UserDatabase extends SQLiteOpenHelper {
             //
         }
         cursor.close();
-        db.close();
         return user;
     }
 
-    public List<User> getAllContacts() {
+    public List<User> getAllUsers() {
         List<User> contactList = new ArrayList<User>();
         SQLiteDatabase db = this.getReadableDatabase();
         String strSQL = "select * from " + TABLE_NAME;
@@ -100,7 +99,6 @@ public class UserDatabase extends SQLiteOpenHelper {
 
         }
         cursor.close();
-        db.close();
         return contactList;
     }
 
@@ -112,7 +110,13 @@ public class UserDatabase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(strSQL, null);
         result = cursor.getCount();
         cursor.close();
-        db.close();
         return result;
+    }
+
+    public void deleteUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME,
+                KEY_USERNAME+ "=?",
+                new String[]{user.getUsername()});
     }
 }

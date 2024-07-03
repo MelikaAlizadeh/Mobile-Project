@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/activity_onboard1_pic1" />
+
+    <LinearLayout
+        android:id="@+id/linear_tv_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/unrounded_background"
+        android:gravity="center"
+        android:padding="10dp">
+
+
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:fontFamily="@font/alata"
+            android:gravity="center"
+            android:text="How is Moeein a boy?"
+            android:textColor="@color/lightBlue"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_tv_result"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/unrounded_background"
+        android:backgroundTint="@color/lightBlue"
+        android:gravity="center"
+        android:padding="10dp">
+
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:fontFamily="@font/alata"
+            android:gravity="center"
+            android:text="Moeein is a Good Boy :)"
+            android:textColor="@color/hardBlue"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_tv_message"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        android:paddingStart="30dp">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_next_group2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            app:singleLine="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_next2"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:text="Previous Question"
+                android:textColor="@color/hardBlue"
+                app:checkedIconTint="@color/hardBlue"
+                app:chipIcon="@drawable/ic_prev"
+                app:chipIconSize="20dp"
+                app:chipIconTint="@color/hardBlue"
+                app:chipStrokeColor="@color/hardBlue"
+                app:chipSurfaceColor="@color/lightBlue" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_next_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            app:singleLine="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_next"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                android:text="    Next Question"
+                android:textColor="@color/hardBlue"
+                app:checkedIconTint="@color/hardBlue"
+                app:chipIcon="@drawable/ic_next"
+                app:chipIconSize="20dp"
+                app:chipIconStart="true"
+                app:chipIconTint="@color/hardBlue"
+                app:chipStrokeColor="@color/hardBlue"
+                app:chipSurfaceColor="@color/lightBlue" />
+        </com.google.android.material.chip.ChipGroup>
+
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/FAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="24dp"
+        android:layout_marginTop="50dp"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/red_fab" />
+</RelativeLayout>
