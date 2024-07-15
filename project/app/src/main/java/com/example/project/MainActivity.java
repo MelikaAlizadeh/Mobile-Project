@@ -1,17 +1,19 @@
 package com.example.project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
-
-    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,38 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(), "Sorry This quiz doesn't exists yet!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()){
+                    case R.id.home:
+                        break;
+                    case R.id.profile:
+                        Intent i = new Intent(MainActivity.this, ProfileActivity.class);
+                        startActivity(i);
+                        finish();
+                        break;
+                    case R.id.ranking:
+                        Intent in = new Intent(MainActivity.this, RankActivity.class);
+                        startActivity(in);
+                        finish();
+                        break;
+                    case R.id.training:
+                        Intent tr = new Intent(MainActivity.this, GameActivity.class);
+                        startActivity(tr);
+                        finish();
+                        break;
+                }
+
+
+
+
+                return true;
             }
         });
 
