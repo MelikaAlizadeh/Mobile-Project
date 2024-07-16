@@ -1,36 +1,279 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" tools:context=".MainActivity">
-    <ImageView android:id="@+id/imageView4" android:layout_width="match_parent" android:layout_height="300dp" android:scaleType="centerCrop" app:srcCompat="@drawable/activity_onboard1_pic1"/>
-    <LinearLayout android:id="@+id/linear_q_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@id/imageView4" android:layout_centerHorizontal="true" android:layout_marginStart="30dp" android:layout_marginTop="20dp" android:layout_marginEnd="30dp" android:background="@drawable/unrounded_background" android:gravity="center" android:padding="10dp">
-        <TextView android:id="@+id/q_tv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:clickable="false" android:fontFamily="@font/alata" android:gravity="center" android:text="How is Moeein a boy?" android:textColor="@color/lightBlue" android:textSize="30sp"/>
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timerTextView"/>
+
+    <LinearLayout
+        android:id="@+id/linear_q_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/unrounded_background"
+        android:gravity="center"
+        android:padding="10dp">
+
+
+        <TextView
+            android:id="@+id/q_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:fontFamily="@font/alata"
+            android:gravity="center"
+            android:text="How is Moeein a boy?"
+            android:textColor="@color/lightBlue"
+            android:textSize="30sp" />
+
     </LinearLayout>
-    <LinearLayout android:id="@+id/linear_tv_message" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@id/linear_q_tv" android:layout_centerHorizontal="true" android:layout_marginStart="30dp" android:layout_marginTop="20dp" android:layout_marginEnd="30dp" android:background="@drawable/unrounded_background" android:backgroundTint="@color/lightBlue" android:gravity="center" android:padding="10dp">
-        <TextView android:id="@+id/tv_message" android:layout_width="wrap_content" android:layout_height="wrap_content" android:clickable="false" android:fontFamily="@font/alata" android:gravity="center" android:text="Moeein is a Good Boy :)" android:textColor="@color/hardBlue" android:textSize="16sp"/>
+
+    <LinearLayout
+        android:id="@+id/linear_tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_q_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:gravity="center"
+        android:padding="10dp">
+
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:fontFamily="@font/alata"
+            android:gravity="center"
+            android:text=" "
+            android:textColor="@color/hardBlue"
+            android:textSize="16sp" />
+
     </LinearLayout>
-    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/card_op1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@id/linear_q_tv" android:layout_centerInParent="true" android:layout_marginStart="36dp" android:layout_marginTop="100dp" android:layout_marginEnd="36dp" app:cardBackgroundColor="@color/lightBlue" app:cardCornerRadius="12dp" app:cardElevation="4dp">
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="8dp">
-            <TextView android:id="@+id/logo_op1" android:layout_width="50dp" android:layout_height="50dp" android:layout_alignParentStart="true" android:layout_centerVertical="true" android:background="@drawable/shape_circle" android:gravity="center" android:text="1" android:textColor="@color/lightBlue" android:textSize="32sp"/>
-            <TextView android:id="@+id/op1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_marginStart="20dp" android:layout_toEndOf="@id/logo_op1" android:fontFamily="@font/alata" android:text="Op 1 Text" android:textAppearance="@style/TextAppearance.Material3.TitleMedium" android:textSize="25sp"/>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_op1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_q_tv"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="36dp"
+        app:cardBackgroundColor="@color/lightBlue"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/logo_op1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_circle"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/lightBlue"
+                android:textSize="32sp" />
+
+
+            <TextView
+                android:id="@+id/op1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/logo_op1"
+                android:fontFamily="@font/alata"
+                android:text="Op 1 Text"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textSize="25sp" />
+
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
-    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/card_op2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@id/card_op1" android:layout_centerInParent="true" android:layout_marginStart="36dp" android:layout_marginTop="1dp" android:layout_marginEnd="36dp" app:cardBackgroundColor="@color/lightBlue" app:cardCornerRadius="12dp" app:cardElevation="4dp">
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="8dp">
-            <TextView android:id="@+id/logo_op2" android:layout_width="50dp" android:layout_height="50dp" android:layout_alignParentStart="true" android:layout_centerVertical="true" android:background="@drawable/shape_circle" android:gravity="center" android:text="2" android:textColor="@color/lightBlue" android:textSize="32sp"/>
-            <TextView android:id="@+id/op2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_marginStart="20dp" android:layout_toEndOf="@id/logo_op2" android:fontFamily="@font/alata" android:text="Op 2 Text" android:textAppearance="@style/TextAppearance.Material3.TitleMedium" android:textSize="25sp"/>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_op2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card_op1"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="36dp"
+        app:cardBackgroundColor="@color/lightBlue"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/logo_op2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_circle"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="@color/lightBlue"
+                android:textSize="32sp" />
+
+
+            <TextView
+                android:id="@+id/op2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/logo_op2"
+                android:fontFamily="@font/alata"
+                android:text="Op 2 Text"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textSize="25sp" />
+
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
-    <com.google.android.material.card.MaterialCardView android:id="@+id/card_op3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@id/card_op2" android:layout_centerInParent="true" android:layout_marginStart="36dp" android:layout_marginTop="1dp" android:layout_marginEnd="36dp" app:cardBackgroundColor="@color/prof_background" app:cardCornerRadius="12dp" app:cardElevation="4dp">
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="8dp">
-            <TextView android:id="@+id/logo_op3" android:layout_width="50dp" android:layout_height="50dp" android:layout_alignParentStart="true" android:layout_centerVertical="true" android:background="@drawable/shape_circle" android:gravity="center" android:text="3" android:textColor="@color/lightBlue" android:textSize="32sp"/>
-            <TextView android:id="@+id/op3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_marginStart="20dp" android:layout_toEndOf="@id/logo_op3" android:fontFamily="@font/alata" android:text="Op 3 Text" android:textAppearance="@style/TextAppearance.Material3.TitleMedium" android:textSize="25sp"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_op3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card_op2"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="36dp"
+        app:cardBackgroundColor="@color/lightBlue"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/logo_op3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_circle"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="@color/lightBlue"
+                android:textSize="32sp" />
+
+
+            <TextView
+                android:id="@+id/op3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/logo_op3"
+                android:fontFamily="@font/alata"
+                android:text="Op 3 Text"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textSize="25sp" />
+
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
-    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/card_op4" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@id/card_op3" android:layout_centerInParent="true" android:layout_marginStart="36dp" android:layout_marginTop="1dp" android:layout_marginEnd="36dp" app:cardBackgroundColor="@color/red" app:cardCornerRadius="12dp" app:cardElevation="4dp">
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="8dp">
-            <TextView android:id="@+id/logo_op4" android:layout_width="50dp" android:layout_height="50dp" android:layout_alignParentStart="true" android:layout_centerVertical="true" android:background="@drawable/shape_circle" android:gravity="center" android:text="4" android:textColor="@color/lightBlue" android:textSize="32sp"/>
-            <TextView android:id="@+id/op4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_marginStart="20dp" android:layout_toEndOf="@id/logo_op4" android:fontFamily="@font/alata" android:text="Op 4 Text" android:textAppearance="@style/TextAppearance.Material3.TitleMedium" android:textSize="25sp"/>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_op4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card_op3"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="36dp"
+        app:cardBackgroundColor="@color/lightBlue"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/logo_op4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_circle"
+                android:gravity="center"
+                android:text="4"
+                android:textColor="@color/lightBlue"
+                android:textSize="32sp" />
+
+
+            <TextView
+                android:id="@+id/op4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/logo_op4"
+                android:fontFamily="@font/alata"
+                android:text="Op 4 Text"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textSize="25sp" />
+
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
-    <com.google.android.material.chip.ChipGroup android:id="@+id/chip_next_group" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/card_op4" android:layout_centerHorizontal="true" android:layout_marginLeft="110dp" android:layout_marginTop="20dp" android:layout_marginRight="110dp" app:singleLine="true" app:singleSelection="true">
-        <com.google.android.material.chip.Chip android:id="@+id/chips_next" android:layout_width="match_parent" android:layout_height="wrap_content" android:layoutDirection="rtl" android:text="Next" android:textColor="@color/hardBlue" app:checkedIconTint="@color/hardBlue" app:chipIcon="@drawable/ic_next" app:chipIconSize="20dp" app:chipIconStart="true" app:chipIconTint="@color/hardBlue" app:chipStrokeColor="@color/hardBlue" app:chipSurfaceColor="@color/lightBlue"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_next_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/card_op4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="110dp"
+        app:singleLine="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chips_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:text="Next"
+            android:textColor="@color/hardBlue"
+            app:checkedIconTint="@color/hardBlue"
+            app:chipIcon="@drawable/ic_next"
+            app:chipIconSize="20dp"
+            app:chipIconTint="@color/hardBlue"
+            app:chipStrokeColor="@color/hardBlue"
+            app:chipSurfaceColor="@color/lightBlue" />
     </com.google.android.material.chip.ChipGroup>
 </RelativeLayout>

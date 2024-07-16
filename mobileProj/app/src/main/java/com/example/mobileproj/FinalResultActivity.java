@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.mobileproj.MainActivity;
 import com.google.android.material.chip.Chip;
 
 public class FinalResultActivity extends AppCompatActivity {
@@ -22,7 +23,7 @@ public class FinalResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_final_result);
+        setContentView(R.layout.activity_finalresult);
 
         numberOfAllQs = getIntent().getIntExtra("number of all qs", 0);
         numberOfCorrects = getIntent().getIntExtra("number of corrects", 0);
@@ -42,7 +43,7 @@ public class FinalResultActivity extends AppCompatActivity {
 
         playAgain.setOnClickListener(v -> {
             Intent intent = new Intent(FinalResultActivity.this,
-                    GameActivity.class);
+                    MainActivity.class);
             startActivity(intent);
             finish();
         });

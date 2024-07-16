@@ -28,6 +28,7 @@ public class GameActivity extends AppCompatActivity {
     int currentNumber;
     Set<Integer> uniqueIntegers = new HashSet<>();
     TextView[] opTVs = new TextView[5];
+    TextView timerTextView;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -59,6 +60,9 @@ public class GameActivity extends AppCompatActivity {
             finish();
         }, 20000);
 
+        timerTextView = findViewById(R.id.timerTextView);
+        startTheTimer();
+
         showNewQuestion(tv, opTVs[1], opTVs[2], opTVs[3], opTVs[4]);
 
         for (int i = 1; i < 5; i++) {
@@ -83,6 +87,18 @@ public class GameActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void startTheTimer() {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                GameActivity.this.runOnUiThread(() -> {
+                    second++;
+                    timerTextView.setText(String.valueOf(second));
+                });
+            }
+        }, 0, 1000);
     }
 
 
