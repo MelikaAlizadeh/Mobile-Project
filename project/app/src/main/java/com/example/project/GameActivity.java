@@ -153,14 +153,13 @@ public class GameActivity extends AppCompatActivity {
             uniqueIntegers.add(randomInt);
         }
 
-        qArray[0] = new Question("In what year did the Great October " +
-                "Socialist Revolution take place?",
+        qArray[0] = new Question("In what year did the Great October Socialist Revolution take place?",
                 "1917", "1923", "1914", "1920", 1);
         qArray[1] = new Question("What is the largest lake in the world?",
                 "Caspian Sea", "Baikal", "Lake Superior",
                 "Ontario", 2);
-        qArray[2] = new Question("Which planet in the solar system is known as the" +
-                " “Red Planet”?", "Venus", "Earth",
+        qArray[2] = new Question("Which planet in the solar system is known as the “Red Planet”?",
+                "Venus", "Earth",
                 "Mars", "Jupiter", 3);
         qArray[3] = new Question("Who wrote the novel “War and Peace”?",
                 "Anton Chekhov", "Fyodor Dostoevsky",
@@ -216,9 +215,7 @@ public class GameActivity extends AppCompatActivity {
                 "Africa", "South Asia",
                 "North America", "Australia", 1);
         qArray[20] = new Question("What do Koalas usually eat?",
-
-
-        "Bamboo", "Eucalyptus",
+                "Bamboo", "Eucalyptus",
                 "Aloe Vera", "Banana", 2);
         qArray[21] = new Question("When the First Afghan War took place in:",
                 "Brioche", "Baguette",
