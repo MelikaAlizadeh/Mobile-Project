@@ -15,6 +15,7 @@ import com.google.android.material.chip.Chip;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.TimerTask;
 
 public class GameActivity extends AppCompatActivity {
     int numberOfAllQuestions;
@@ -61,7 +62,7 @@ public class GameActivity extends AppCompatActivity {
         }, 20000);
 
         timerTextView = findViewById(R.id.timerTextView);
-        startTheTimer();
+//        startTheTimer();
 
         showNewQuestion(tv, opTVs[1], opTVs[2], opTVs[3], opTVs[4]);
 
@@ -89,17 +90,17 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void startTheTimer() {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                GameActivity.this.runOnUiThread(() -> {
-                    second++;
-                    timerTextView.setText(String.valueOf(second));
-                });
-            }
-        }, 0, 1000);
-    }
+//    private void startTheTimer() {
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                GameActivity.this.runOnUiThread(() -> {
+//                    second++;
+//                    timerTextView.setText(String.valueOf(second));
+//                });
+//            }
+//        }, 0, 1000);
+//    }
 
 
     @SuppressLint("ResourceAsColor")

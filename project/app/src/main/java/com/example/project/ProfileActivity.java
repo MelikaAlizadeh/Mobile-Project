@@ -34,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.profile);
 
-        UserDatabase db = new UserDatabase(this);
+//        UserDatabase db = new UserDatabase(this);
 
         String imagePath = "data/data/com.example.project/files/project/images/selected_image.jpg";
         File imgFile = new File(imagePath);
@@ -47,7 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
         findViewById(R.id.chip_1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserDatabase.currentUser = null;
+//                UserDatabase.currentUser = null;
                 Intent i = new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();
@@ -61,34 +61,34 @@ public class ProfileActivity extends AppCompatActivity {
         TextInputEditText region = (TextInputEditText) regionLayout.getEditText();
         String regionStr = region.getText().toString();
 
-        selected = UserDatabase.currentUser;
-        selected=findCorrectUser(selected,db);
-
-        TextView name=findViewById(R.id.profileName);
-        TextView mail=findViewById(R.id.profileEmail);
-        name.setText(selected.getUsername());
-        mail.setText(selected.getEmail());
-
-        findViewById(R.id.chip_2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!(cityStr.length() == 0 || regionStr.length() == 0)) {
-                    db.deleteUser(selected);
-                    selected.setCity(cityStr);
-                    selected.setRegion(regionStr);
-                    db.addUser(selected);
-                }
-            }
-        });
-    }
-
-    private User findCorrectUser(User newUser, UserDatabase db) {
-        usersList = db.getAllUsers();
-        for (User u : usersList) {
-            if (u.getUsername().equals(newUser.getUsername()) && u.getPassword().equals(newUser.getPassword())) {
-                return u;
-            }
-        }
-        return newUser;
+//        selected = UserDatabase.currentUser;
+//        selected=findCorrectUser(selected,db);
+//
+//        TextView name=findViewById(R.id.profileName);
+//        TextView mail=findViewById(R.id.profileEmail);
+//        name.setText(selected.getUsername());
+//        mail.setText(selected.getEmail());
+//
+//        findViewById(R.id.chip_2).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!(cityStr.length() == 0 || regionStr.length() == 0)) {
+//                    db.deleteUser(selected);
+//                    selected.setCity(cityStr);
+//                    selected.setRegion(regionStr);
+//                    db.addUser(selected);
+//                }
+//            }
+//        });
+//    }
+//
+//    private User findCorrectUser(User newUser, UserDatabase db) {
+//        usersList = db.getAllUsers();
+//        for (User u : usersList) {
+//            if (u.getUsername().equals(newUser.getUsername()) && u.getPassword().equals(newUser.getPassword())) {
+//                return u;
+//            }
+//        }
+//        return newUser;
     }
 }

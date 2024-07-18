@@ -16,19 +16,10 @@ public class User {
 
     private String email;
 
-    private String city;
-
-    private String region;
-    private String score;
+    private String country;
+    private int score;
 
     public User() {
-
-    }
-
-    public User(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
     }
 
     public User(String username, String password) {
@@ -36,19 +27,19 @@ public class User {
         this.password = password;
     }
 
-    public User(String username, String password, String email, String city, String region) {
+    public User(String username, String password, String email, String country,int score) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.city = city;
-        this.region = region;
+        this.country = country;
+        this.score=score;
     }
 
-    public String getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
@@ -76,19 +67,11 @@ public class User {
         this.email = email;
     }
 
-    public String getCity() {
-        return city;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

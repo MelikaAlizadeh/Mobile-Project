@@ -60,10 +60,7 @@
         android:hint="username"
         android:textColorHint="@color/hardBlue"
         app:boxStrokeColor="@color/hardBlue"
-        app:hintTextColor="@color/hardBlue"
-
-
-        >
+        app:hintTextColor="@color/hardBlue">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -153,11 +150,37 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textField4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:hint="country"
+        android:textColorHint="@color/hardBlue"
+        app:boxStrokeColor="@color/hardBlue"
+        app:hintTextColor="@color/hardBlue">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:focusedSearchResultHighlightColor="@color/hardBlue"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/hardBlue"
+            android:textColorHint="@color/hardBlue" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <ImageView
         android:id="@+id/btnsignin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textField4"
+        android:layout_below="@id/textField5"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:scaleType="fitXY"

@@ -1,5 +1,6 @@
 package com.example.project;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -10,12 +11,14 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -39,7 +42,6 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        UserDatabase db = new UserDatabase(this);
 
         TextInputLayout usernameLayout = findViewById(R.id.textField);
         TextInputEditText username = (TextInputEditText) usernameLayout.getEditText();
@@ -49,25 +51,22 @@ public class RegisterActivity extends AppCompatActivity {
         TextInputEditText password = (TextInputEditText) passwordLayout.getEditText();
         TextInputLayout passwordCheckLayout = findViewById(R.id.textField4);
         TextInputEditText passwordCheck = (TextInputEditText) passwordCheckLayout.getEditText();
+        TextInputLayout countryLayout = findViewById(R.id.textField5);
+        @SuppressLint("WrongViewCast") MaterialAutoCompleteTextView autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
 
         //to check repeated password is correct or not
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 String passwords = password.getText().toString();
-                String repeatPassword = passwordCheck.getText().toString();
-
-                if (!repeatPassword.equals(passwords)) {
+                String repeatPasswords = passwordCheck.getText().toString();
+                if (!repeatPasswords.equals(passwords)) {
                     passwordCheckLayout.setBoxStrokeColor(Color.RED);
                     passwordCheckLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
                 } else {
@@ -76,46 +75,149 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         };
-
         password.addTextChangedListener(textWatcher);
         passwordCheck.addTextChangedListener(textWatcher);
+
+        //check country box
+        String[] countries = {"Afghanistan", "Albania", "Algeria", "Andorra", "Angola",
+                "Antigua and Barbuda", "Argentina", "Armenia", "Australia",
+                "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh",
+                "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan",
+                "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil",
+                "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde",
+                "Cambodia", "Cameroon", "Canada", "Central African Republic",
+                "Chad", "Chile", "China", "Colombia", "Comoros", "Congo",
+                "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czech Republic",
+                "Denmark", "Djibouti", "Dominica", "Dominican Republic",
+                "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea",
+                "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland",
+                "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana",
+                "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau",
+                "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India",
+                "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy",
+                "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati",
+                "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho",
+                "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
+                "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta",
+                "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia",
+                "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique",
+                "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand",
+                "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia",
+                "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama",
+                "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland",
+                "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis",
+                "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino",
+                "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles",
+                "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands",
+                "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka",
+                "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan",
+                "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago",
+                "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates",
+                "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City",
+                "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, countries);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setThreshold(1);
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String input = editable.toString();
+                boolean isValid = false;
+                for (String country : countries) {
+                    if (country.equalsIgnoreCase(input)) {
+                        isValid = true;
+                        break;
+                    }
+                }
+                if (!isValid) {
+                    countryLayout.setError("Invalid country");
+                } else {
+                    countryLayout.setError(null);
+                }
+            }
+        });
+
 
         //to check rest of the fields
         ImageView register = findViewById(R.id.btnsignup);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String usernameStr = username.getText().toString();
+                String emailStr = email.getText().toString();
+                String passwordStr = password.getText().toString();
+                String repeatPasswordStr = passwordCheck.getText().toString();
+                String countryStr = autoCompleteTextView.getText().toString();
                 isCheckUsernameExists = false;
                 isCheckUserExists = false;
-                User newUser = new User(username.getText().toString(), password.getText().toString(), email.getText().toString());
-                checkUserExists(newUser, db);
-                CheckUsernameExists(newUser, db);
-//                print(username.getText().toString(), password.getText().toString(), email.getText().toString());
-//                print(newUser.getUsername(), newUser.getPassword(), newUser.getEmail());
-                String givenUsername = username.getText().toString();
-                String givenPassword = password.getText().toString();
-                String givenEmail = email.getText().toString();
+                User newUser = new User(usernameStr, passwordStr, emailStr,countryStr,0);
+//                checkUserExists(newUser);
+//                CheckUsernameExists(newUser);
 
-                if (givenUsername.length() == 0) {
-                    username.setError("Field is empty!");
-                } else if (isCheckUsernameExists) {
-                    username.setError("This username already exists!");
-                } else if (!isUsernameValid(givenUsername)) {
-                    username.setError("Invalid username format!");
-                } else if (givenEmail.length() == 0) {
-                    email.setError("Field is empty!");
-                } else if (isCheckUserExists) {
-                    email.setError("You already have an account!");
-                } else if (!isEmailValid(givenEmail)) {
-                    email.setError("Invalid email format!");
-                } else if (givenPassword.length() == 0) {
-                    password.setError("Field is empty!");
-                } else if (!isPasswordWeak(givenPassword).equals("success")) {
-                    password.setError(isPasswordWeak(givenPassword));
+                if (usernameStr.length() == 0) {
+                    usernameLayout.setError("Field is empty!");
+                    passwordLayout.setError(null);
+                    countryLayout.setError(null);
+                    emailLayout.setError(null);
+                }
+//                else if (isCheckUsernameExists) {
+//                    usernameLayout.setError("This username already exists!");
+//                    passwordLayout.setError(null);
+//                    countryLayout.setError(null);
+//                    emailLayout.setError(null);
+//                }
+                else if (!isUsernameValid(usernameStr)) {
+                    usernameLayout.setError("Invalid username format!");
+                    passwordLayout.setError(null);
+                    countryLayout.setError(null);
+                    emailLayout.setError(null);
+                } else if (emailStr.length() == 0) {
+                    emailLayout.setError("Field is empty!");
+                    usernameLayout.setError(null);
+                    passwordLayout.setError(null);
+                    countryLayout.setError(null);
+                }
+//                else if (isCheckUserExists) {
+//                    emailLayout.setError("You already have an account!");
+//                    usernameLayout.setError(null);
+//                    passwordLayout.setError(null);
+//                    countryLayout.setError(null);
+//                }
+                else if (!isEmailValid(emailStr)) {
+                    emailLayout.setError("Invalid email format!");
+                    usernameLayout.setError(null);
+                    passwordLayout.setError(null);
+                    countryLayout.setError(null);
+                }
+                else if (passwordStr.length() == 0) {
+                    passwordLayout.setError("Field is empty!");
+                    usernameLayout.setError(null);
+                    emailLayout.setError(null);
+                    countryLayout.setError(null);
+                } else if (!isPasswordWeak(passwordStr).equals("success")) {
+                    passwordLayout.setError(isPasswordWeak(passwordStr));
+                    usernameLayout.setError(null);
+                    emailLayout.setError(null);
+                    countryLayout.setError(null);
+                } else if (countryStr.length()==0) {
+                    countryLayout.setError("Field is empty!");
+                    usernameLayout.setError(null);
+                    emailLayout.setError(null);
+                    passwordLayout.setError(null);
                 } else if (!isImageSet) {
                     Toast.makeText(getBaseContext(), "Please choose an image!", Toast.LENGTH_LONG).show();
+                    usernameLayout.setError(null);
+                    emailLayout.setError(null);
+                    passwordLayout.setError(null);
+                    countryLayout.setError(null);
                 }else {
-                    db.addUser(newUser);
+
                     Intent main = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(main);
                     finish();
@@ -138,26 +240,25 @@ public class RegisterActivity extends AppCompatActivity {
         findViewById(R.id.chip_1).setOnClickListener(v -> openGallery());
     }
 
-    private void CheckUsernameExists(User newUser, UserDatabase db) {
-        usersList = db.getAllUsers();
-        for (User u : usersList) {
-            if (u.getUsername().equals(newUser.getUsername())) {
-                isCheckUsernameExists = true;
-                break;
-            }
-        }
-    }
-
-    private void checkUserExists(User newUser, UserDatabase db) {
-        usersList = db.getAllUsers();
-        for (User u : usersList) {
-            if (u.getEmail().equals(newUser.getEmail())) {
-                isCheckUserExists = true;
-                break;
-            }
-        }
-
-    }
+//    private void CheckUsernameExists(User newUser) {
+//        usersList = db.getAllUsers();
+//        for (User u : usersList) {
+//            if (u.getUsername().equals(newUser.getUsername())) {
+//                isCheckUsernameExists = true;
+//                break;
+//            }
+//        }
+//    }
+//
+//    private void checkUserExists(User newUser) {
+//        usersList = db.getAllUsers();
+//        for (User u : usersList) {
+//            if (u.getEmail().equals(newUser.getEmail())) {
+//                isCheckUserExists = true;
+//                break;
+//            }
+//        }
+//    }
 
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
