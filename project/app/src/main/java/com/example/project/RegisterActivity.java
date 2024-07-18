@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -14,6 +15,23 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -217,7 +235,7 @@ public class RegisterActivity extends AppCompatActivity {
                     passwordLayout.setError(null);
                     countryLayout.setError(null);
                 }else {
-
+                    registerUser(usernameStr, passwordStr, emailStr, "0", countryStr);
                     Intent main = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(main);
                     finish();
@@ -239,6 +257,59 @@ public class RegisterActivity extends AppCompatActivity {
 
         findViewById(R.id.chip_1).setOnClickListener(v -> openGallery());
     }
+
+    private class RegisterUserTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String username = params[0];
+            String password = params[1];
+            String email = params[2];
+            String score = params[3];
+            String country = params[4];
+
+            OkHttpClient client = new OkHttpClient();
+
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://10.0.2.2:3000/users").newBuilder();
+            urlBuilder.addQueryParameter("username", username);
+            urlBuilder.addQueryParameter("password", password);
+            urlBuilder.addQueryParameter("email", email);
+            if (!score.isEmpty()) {
+                urlBuilder.addQueryParameter("score", score);
+            }
+            if (!country.isEmpty()) {
+                urlBuilder.addQueryParameter("country", country);
+            }
+            String url = urlBuilder.build().toString();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(RequestBody.create(null, new byte[0])) // Empty body for POST request
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                return response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result != null) {
+                Toast.makeText(getBaseContext(),result,Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getBaseContext(),"Failed to register user",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void registerUser(String username, String password, String email, String score, String country) {
+        new RegisterUserTask().execute(username, password, email, score, country);
+    }
+
+
 
 //    private void CheckUsernameExists(User newUser) {
 //        usersList = db.getAllUsers();
