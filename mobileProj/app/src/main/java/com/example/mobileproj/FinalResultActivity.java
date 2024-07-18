@@ -34,7 +34,7 @@ public class FinalResultActivity extends AppCompatActivity {
         trueTextView = findViewById(R.id.tv_final_result_true);
         wrongTextView = findViewById(R.id.tv_final_result_false);
 
-        String text = "You answered " + numberOfAllQs + ".";
+        String text = "You answered " + numberOfAllQs + " questions.";
         allTextView.setText(text);
         text = Integer.toString(numberOfCorrects);
         trueTextView.setText(text);

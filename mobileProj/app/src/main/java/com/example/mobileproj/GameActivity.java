@@ -9,13 +9,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.mobileproj.FinalResultActivity;
-import com.example.mobileproj.Question;
 import com.google.android.material.chip.Chip;
-
-import org.w3c.dom.Text;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -24,7 +19,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameActivity extends AppCompatActivity {
-    int numberOfAllQuestions;
+    private final int numberOfQuestions = 10;
+    private final int wholeTime = 20; //in seconds
+
+    int numberOfAnsweredQuestions;
     int numberOfCorrectAnswers;
     int numberOfWrongs;
     TextView tv;
@@ -32,13 +30,15 @@ public class GameActivity extends AppCompatActivity {
     int correctAnswer;
     Chip nextChip;
     Question[] questionArray = new Question[100];
-    int currentNumber;
+    int currentNumber = 0;
     Set<Integer> uniqueIntegers = new HashSet<>();
     TextView[] opTVs = new TextView[5];
     Timer timer = new Timer();
     ;
     int second = 0;
     TextView timerTextView;
+    Intent intent;
+    private boolean isAnswered = false;
 
 
     @SuppressLint("ResourceAsColor")
@@ -62,18 +62,6 @@ public class GameActivity extends AppCompatActivity {
         opTVs[4] = findViewById(R.id.op4);
         nextChip = findViewById(R.id.chips_next);
 
-
-        Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            Intent intent = new Intent(this, FinalResultActivity.class);
-            intent.putExtra("number of all qs", numberOfAllQuestions);
-            intent.putExtra("number of corrects", numberOfCorrectAnswers);
-            intent.putExtra("number of wrongs", numberOfWrongs);
-            timer.cancel();
-            startActivity(intent);
-            finish();
-        }, 20000);
-
         startTheTimer();
 
         showNewQuestion(tv, opTVs[1], opTVs[2], opTVs[3], opTVs[4]);
@@ -82,20 +70,40 @@ public class GameActivity extends AppCompatActivity {
             int finalI = i;
             int finalI1 = i;
             cards[i].setOnClickListener(v -> {
-                numberOfAllQuestions++;
-                if (finalI == correctAnswer) {
-                    cards[finalI1].setCardBackgroundColor(Color.GREEN);
-                    numberOfCorrectAnswers++;
-                } else {
-                    cards[finalI1].setCardBackgroundColor(Color.RED);
-                    cards[correctAnswer].setCardBackgroundColor(Color.GREEN);
-                    numberOfWrongs++;
+                if (!isAnswered) {
+                    numberOfAnsweredQuestions++;
+                    if (finalI == correctAnswer) {
+                        cards[finalI1].setCardBackgroundColor(Color.GREEN);
+                        numberOfCorrectAnswers++;
+                    } else {
+                        cards[finalI1].setCardBackgroundColor(Color.RED);
+                        cards[correctAnswer].setCardBackgroundColor(Color.GREEN);
+                        numberOfWrongs++;
+                    }
+                    isAnswered = true;
                 }
             });
         }
         nextChip.setOnClickListener(v -> {
+            if (currentNumber == numberOfQuestions) {
+                finishTheGame();
+                this.finish();
+            }
             showNewQuestion(tv, opTVs[1], opTVs[2], opTVs[3], opTVs[4]);
         });
+    }
+
+    private void finishTheGame() {
+        GameActivity.this.runOnUiThread(() -> {
+            intent = new Intent(GameActivity.this, FinalResultActivity.class);
+            intent.putExtra("number of all qs", numberOfAnsweredQuestions);
+            intent.putExtra("number of corrects", numberOfCorrectAnswers);
+            intent.putExtra("number of wrongs", numberOfWrongs);
+            timer.cancel();
+            startActivity(intent);
+            finish();
+        });
+
     }
 
     private void startTheTimer() {
@@ -104,6 +112,7 @@ public class GameActivity extends AppCompatActivity {
             public void run() {
                 GameActivity.this.runOnUiThread(() -> {
                     second++;
+                    if (second == wholeTime) finishTheGame();
                     timerTextView.setText(String.valueOf(second));
                 });
             }
@@ -114,9 +123,10 @@ public class GameActivity extends AppCompatActivity {
     @SuppressLint("ResourceAsColor")
     private void showNewQuestion(TextView tv, TextView chip1, TextView chip2, TextView chip3, TextView chip4) {
 
+        isAnswered = false;
+
         Question question = questionArray[currentNumber];
         currentNumber++;
-
 
         for (int k = 1; k < 5; k++) {
             cards[k].setCardBackgroundColor(R.color.lightBlue);
@@ -124,7 +134,7 @@ public class GameActivity extends AppCompatActivity {
                 int finalI = i;
                 int finalI1 = i;
                 cards[i].setOnClickListener(v1 -> {
-                    numberOfAllQuestions++;
+                    numberOfAnsweredQuestions++;
                     if (finalI == correctAnswer) {
                         cards[finalI1].setCardBackgroundColor(Color.GREEN);
                         numberOfCorrectAnswers++;
@@ -134,8 +144,6 @@ public class GameActivity extends AppCompatActivity {
                         numberOfWrongs++;
                     }
                 });
-
-
             }
 
         }
@@ -151,9 +159,11 @@ public class GameActivity extends AppCompatActivity {
 
     private void fillQuestionArray(Question[] qArray) {
 
+        //TODO: This function has to be changed completely.
+
         Random random = new Random();
 
-        while (uniqueIntegers.size() < 10) {
+        while (uniqueIntegers.size() < numberOfQuestions) {
             int randomInt = random.nextInt(36);
             uniqueIntegers.add(randomInt);
         }
@@ -271,9 +281,5 @@ public class GameActivity extends AppCompatActivity {
         qArray[35] = new Question("In what year was the United Nations (UN) founded?",
                 "1945", "1919",
                 "1956", "1961", 1);
-
-        ('Which is the richest country in the world?',
-                'Qatar', 'Russia',
-                'The USA', 'The UAE', 1),
     }
 }
