@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5e87d1aa-fd6d-4f4d-bad1-e538cfacd609" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/font/alata.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/activity_finalresult.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/activity_onboard1_pic1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/btn_signin.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/btn_signup.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/ic_home.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/ic_next.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/ic_prev.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/ic_profile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/ic_quiz.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/ic_training.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/large_fab.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/left_arrow.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/logouticon.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/menu/bottom_navigation_menu.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/notif.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/onboard2_pic1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/onboard_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/onboard_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/profile_user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/red_fab.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/rounded_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/shape_circle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/signin.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/signup.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/splashactivity_image2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/splashactivity_pic1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/unrounded_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/uploadprof.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mobileProj/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/app/src/main/java/com/example/mobileproj/FinalResultActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/java/com/example/mobileproj/FinalResultActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/app/src/main/java/com/example/mobileproj/GameActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/java/com/example/mobileproj/GameActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/drawable/ic_launcher_foreground.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/drawable/ic_launcher_foreground.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/activity_final_result.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/activity_game.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/layout/activity_game.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/values-night/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mobileProj/app/src/main/res/values/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_game.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_game.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="2jKoKVu8hr8RDAHY62Qn6WWRaFW" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "android.gradle.sync.needed": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/asus/Desktop/mobile proj/Mobile-Project/project/app"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5e87d1aa-fd6d-4f4d-bad1-e538cfacd609" name="Changes" comment="" />
+      <created>1721145065777</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1721145065777</updated>
+    </task>
+    <servers />
+  </component>
+</project>

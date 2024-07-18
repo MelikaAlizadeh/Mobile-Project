@@ -272,6 +272,8 @@ public class GameActivity extends AppCompatActivity {
                 "1945", "1919",
                 "1956", "1961", 1);
 
-
+        ('Which is the richest country in the world?',
+                'Qatar', 'Russia',
+                'The USA', 'The UAE', 1),
     }
 }
