@@ -17,3 +17,13 @@ CREATE TABLE quiz
     option4 TEXT,
     correct_answer INT
 );
+
+CREATE TABLE teacher
+(
+    teacher_id SERIAL PRIMARY KEY,
+    f_name TEXT,
+    l_name TEXT,
+    ph_number VARCHAR(11),
+    price DECIMAL,
+    score FLOAT
+);

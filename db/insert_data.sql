@@ -2,6 +2,13 @@
 INSERT INTO users (username, password, email, score, country)
 VALUES ('Melika', 'pass123@', 'melika@example.com', 0, 'Iran'),
        ('Moeein', 'pass123@', 'moeein@example.com', 0, 'Iran');
+
+--teachers
+INSERT INTO teachers (f_name, l_name, ph_number, price, score)
+VALUES ('a', 'A', 09123456789, 4000000, 4.1),
+       ('b', 'B', 09876543210, 2000000, 3.2);
+
+
 --quiz
 INSERT INTO quiz (question, option1, option2, option3, option4, correct_answer)
 VALUES 
