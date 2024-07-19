@@ -21,7 +21,7 @@ CREATE TABLE questions
 CREATE TABLE general_qs () INHERITS (questions);
 CREATE TABLE sports_qs () INHERITS (questions);
 CREATE TABLE art_qs () INHERITS (questions);
-
+CREATE TABLE programming_qs () INHERITS(questions);
 
 CREATE TABLE teacher
 (
