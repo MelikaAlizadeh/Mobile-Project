@@ -7,7 +7,7 @@ CREATE TABLE users
     country  TEXT default null
 );
 
-CREATE TABLE quiz
+CREATE TABLE questions
 (
     q_id SERIAL PRIMARY KEY,
     question TEXT,
@@ -17,6 +17,11 @@ CREATE TABLE quiz
     option4 TEXT,
     correct_answer INT
 );
+
+CREATE TABLE general_qs () INHERITS (questions);
+CREATE TABLE sports_qs () INHERITS (questions);
+CREATE TABLE art_qs () INHERITS (questions);
+
 
 CREATE TABLE teacher
 (
