@@ -20,7 +20,7 @@ import java.util.TimerTask;
 
 public class GameActivity extends AppCompatActivity {
     private final int numberOfQuestions = 10;
-    private final int wholeTime = 20; //in seconds
+    private final int wholeTime = 10; //in seconds
 
     int numberOfAnsweredQuestions;
     int numberOfCorrectAnswers;
@@ -34,11 +34,9 @@ public class GameActivity extends AppCompatActivity {
     Set<Integer> uniqueIntegers = new HashSet<>();
     TextView[] opTVs = new TextView[5];
     Timer timer = new Timer();
-    ;
     int second = 0;
     TextView timerTextView;
     Intent intent;
-    private boolean isAnswered = false;
 
 
     @SuppressLint("ResourceAsColor")
@@ -64,33 +62,43 @@ public class GameActivity extends AppCompatActivity {
 
         startTheTimer();
 
-        showNewQuestion(tv, opTVs[1], opTVs[2], opTVs[3], opTVs[4]);
+        showNewQuestion();
 
-        for (int i = 1; i < 5; i++) {
-            int finalI = i;
-            int finalI1 = i;
-            cards[i].setOnClickListener(v -> {
-                if (!isAnswered) {
-                    numberOfAnsweredQuestions++;
-                    if (finalI == correctAnswer) {
-                        cards[finalI1].setCardBackgroundColor(Color.GREEN);
-                        numberOfCorrectAnswers++;
-                    } else {
-                        cards[finalI1].setCardBackgroundColor(Color.RED);
-                        cards[correctAnswer].setCardBackgroundColor(Color.GREEN);
-                        numberOfWrongs++;
-                    }
-                    isAnswered = true;
-                }
-            });
-        }
+        setCardsListeners();
+
         nextChip.setOnClickListener(v -> {
             if (currentNumber == numberOfQuestions) {
                 finishTheGame();
                 this.finish();
             }
-            showNewQuestion(tv, opTVs[1], opTVs[2], opTVs[3], opTVs[4]);
+            showNewQuestion();
         });
+    }
+
+    private void setCardsListeners() {
+        for (int i = 1; i < 5; i++) {
+            int finalI = i;
+            int finalI1 = i;
+            cards[i].setOnClickListener(v -> {
+                numberOfAnsweredQuestions++;
+                if (finalI == correctAnswer) {
+                    cards[finalI1].setCardBackgroundColor(Color.GREEN);
+                    numberOfCorrectAnswers++;
+                } else {
+                    cards[finalI1].setCardBackgroundColor(Color.RED);
+                    cards[correctAnswer].setCardBackgroundColor(Color.GREEN);
+                    numberOfWrongs++;
+                }
+                new Handler().postDelayed(() -> {
+                    if (currentNumber == numberOfQuestions) {
+                    finishTheGame();
+                    this.finish();
+                }
+                    showNewQuestion();
+
+                }, 500);
+            });
+        }
     }
 
     private void finishTheGame() {
@@ -121,39 +129,20 @@ public class GameActivity extends AppCompatActivity {
 
 
     @SuppressLint("ResourceAsColor")
-    private void showNewQuestion(TextView tv, TextView chip1, TextView chip2, TextView chip3, TextView chip4) {
-
-        isAnswered = false;
-
+    private void showNewQuestion() {
         Question question = questionArray[currentNumber];
         currentNumber++;
 
         for (int k = 1; k < 5; k++) {
             cards[k].setCardBackgroundColor(R.color.lightBlue);
-            for (int i = 1; i < 5; i++) {
-                int finalI = i;
-                int finalI1 = i;
-                cards[i].setOnClickListener(v1 -> {
-                    numberOfAnsweredQuestions++;
-                    if (finalI == correctAnswer) {
-                        cards[finalI1].setCardBackgroundColor(Color.GREEN);
-                        numberOfCorrectAnswers++;
-                    } else {
-                        cards[finalI1].setCardBackgroundColor(Color.RED);
-                        cards[correctAnswer].setCardBackgroundColor(Color.GREEN);
-                        numberOfWrongs++;
-                    }
-                });
-            }
-
+            setCardsListeners();
         }
 
-
         tv.setText(question.getText());
-        chip1.setText(question.getOption1());
-        chip2.setText(question.getOption2());
-        chip3.setText(question.getOption3());
-        chip4.setText(question.getOption4());
+        opTVs[1].setText(question.getOption1());
+        opTVs[2].setText(question.getOption2());
+        opTVs[3].setText(question.getOption3());
+        opTVs[4].setText(question.getOption4());
         correctAnswer = question.getCorrectAnswer();
     }
 
