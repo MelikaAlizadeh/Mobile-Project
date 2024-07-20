@@ -1,9 +1,9 @@
 module.exports = (fastify) => {
-    const getAllUsers = require("../controllers/getAllUsers")(fastify);
-    const getUser = require("../controllers/getUser.js")(fastify);
-    const createUser = require("../controllers/createUser")(fastify);
-    const updateScore = require("../controllers/updateScore")(fastify);
-    const getTops = require("../controllers/topUsers.js")(fastify);
+    const getAllUsers = require("../controllers/users/getAllUsers.js")(fastify);
+    const getUser = require("../controllers/users/getUser.js")(fastify);
+    const createUser = require("../controllers/users/createUser.js")(fastify);
+    const updateScore = require("../controllers/users/updateScore.js")(fastify);
+    const getTops = require("../controllers/users/topUsers.js")(fastify);
 
     fastify.get("/getAllUsers", getAllUsers);
     fastify.get("/getUser", getUser);
