@@ -32,7 +32,7 @@ public class GameActivity extends AppCompatActivity {
     int currentNumber = 0;
     Set<Integer> uniqueIntegers = new HashSet<>();
     TextView[] opTVs = new TextView[5];
-    Timer timer = new Timer();
+//    Timer timer = new Timer();
     int second = 0;
     TextView timerTextView;
     Intent intent;
@@ -44,87 +44,87 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        fillQuestionArray(questionArray);
-
-        timerTextView = findViewById(R.id.timerTextView);
-
-        tv = findViewById(R.id.q_tv);
-        cards[1] = findViewById(R.id.card_op1);
-        cards[2] = findViewById(R.id.card_op2);
-        cards[3] = findViewById(R.id.card_op3);
-        cards[4] = findViewById(R.id.card_op4);
-        opTVs[1] = findViewById(R.id.op1);
-        opTVs[2] = findViewById(R.id.op2);
-        opTVs[3] = findViewById(R.id.op3);
-        opTVs[4] = findViewById(R.id.op4);
-        nextChip = findViewById(R.id.chips_next);
-
-        startTheTimer();
-
-        showNewQuestion();
-
-        setCardsListeners();
-
-        nextChip.setOnClickListener(v -> {
-            if (currentNumber == numberOfQuestions) {
-                finishTheGame();
-                this.finish();
-            }
-            showNewQuestion();
-        });
-    }
-
-    private void setCardsListeners() {
-        for (int i = 1; i < 5; i++) {
-            int finalI = i;
-            int finalI1 = i;
-            cards[i].setOnClickListener(v -> {
-                numberOfAnsweredQuestions++;
-                if (finalI == correctAnswer) {
-                    cards[finalI1].setCardBackgroundColor(Color.GREEN);
-                    numberOfCorrectAnswers++;
-                } else {
-                    cards[finalI1].setCardBackgroundColor(Color.RED);
-                    cards[correctAnswer].setCardBackgroundColor(Color.GREEN);
-                    numberOfWrongs++;
-                }
-                new Handler().postDelayed(() -> {
-                    if (currentNumber == numberOfQuestions) {
-                        finishTheGame();
-                        this.finish();
-                    }
-                }
-                showNewQuestion();
-            }, 500);
-        });
-    }
+//        fillQuestionArray(questionArray);
+//
+//        timerTextView = findViewById(R.id.timerTextView);
+//
+//        tv = findViewById(R.id.q_tv);
+//        cards[1] = findViewById(R.id.card_op1);
+//        cards[2] = findViewById(R.id.card_op2);
+//        cards[3] = findViewById(R.id.card_op3);
+//        cards[4] = findViewById(R.id.card_op4);
+//        opTVs[1] = findViewById(R.id.op1);
+//        opTVs[2] = findViewById(R.id.op2);
+//        opTVs[3] = findViewById(R.id.op3);
+//        opTVs[4] = findViewById(R.id.op4);
+//        nextChip = findViewById(R.id.chips_next);
+//
+//        startTheTimer();
+//
+//        showNewQuestion();
+//
+//        setCardsListeners();
+//
+//        nextChip.setOnClickListener(v -> {
+//            if (currentNumber == numberOfQuestions) {
+//                finishTheGame();
+//                this.finish();
+//            }
+//            showNewQuestion();
+//        });
+//    }
+//
+//    private void setCardsListeners() {
+//        for (int i = 1; i < 5; i++) {
+//            int finalI = i;
+//            int finalI1 = i;
+//            cards[i].setOnClickListener(v -> {
+//                numberOfAnsweredQuestions++;
+//                if (finalI == correctAnswer) {
+//                    cards[finalI1].setCardBackgroundColor(Color.GREEN);
+//                    numberOfCorrectAnswers++;
+//                } else {
+//                    cards[finalI1].setCardBackgroundColor(Color.RED);
+//                    cards[correctAnswer].setCardBackgroundColor(Color.GREEN);
+//                    numberOfWrongs++;
+//                }
+//                new Handler().postDelayed(() -> {
+//                    if (currentNumber == numberOfQuestions) {
+//                        finishTheGame();
+//                        this.finish();
+//                    }
+//                }
+//                showNewQuestion();
+//            }, 500);
+//        });
+//    }
 }
 
-    private void finishTheGame() {
-        GameActivity.this.runOnUiThread(() -> {
-            intent = new Intent(GameActivity.this, FinalResultActivity.class);
-            intent.putExtra("number of all qs", numberOfAnsweredQuestions);
-            intent.putExtra("number of corrects", numberOfCorrectAnswers);
-            intent.putExtra("number of wrongs", numberOfWrongs);
-            timer.cancel();
-            startActivity(intent);
-            finish();
-        });
+//    private void finishTheGame() {
+//        GameActivity.this.runOnUiThread(() -> {
+//            intent = new Intent(GameActivity.this, FinalResultActivity.class);
+//            intent.putExtra("number of all qs", numberOfAnsweredQuestions);
+//            intent.putExtra("number of corrects", numberOfCorrectAnswers);
+//            intent.putExtra("number of wrongs", numberOfWrongs);
+//            timer.cancel();
+//            startActivity(intent);
+//            finish();
+//        });
+//
+//    }
 
-    }
-
-    private void startTheTimer() {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                GameActivity.this.runOnUiThread(() -> {
-                    second++;
-                    if (second == wholeTime) finishTheGame();
-                    timerTextView.setText(String.valueOf(second));
-                });
-            }
-        }, 0, 1000);
-    }
+//    private void startTheTimer() {
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                GameActivity.this.runOnUiThread(() -> {
+//                    second++;
+//                    if (second == wholeTime) finishTheGame();
+//                    timerTextView.setText(String.valueOf(second));
+//                });
+//            }
+//        }, 0, 1000);
+//    }
 
 
     @SuppressLint("ResourceAsColor")
@@ -134,7 +134,7 @@ public class GameActivity extends AppCompatActivity {
 
         for (int k = 1; k < 5; k++) {
             cards[k].setCardBackgroundColor(R.color.lightBlue);
-            setCardsListeners();
+//            setCardsListeners();
         }
 
         tv.setText(question.getText());
@@ -270,3 +270,4 @@ public class GameActivity extends AppCompatActivity {
                 "1945", "1919",
                 "1956", "1961", 1);
     }
+}
