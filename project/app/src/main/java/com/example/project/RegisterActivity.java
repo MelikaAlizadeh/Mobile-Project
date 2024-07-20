@@ -11,39 +11,39 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.os.AsyncTask;
-import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.lang.reflect.Type;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
+
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -55,6 +55,8 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
     private ImageView imageView;
     private String imagePath;
+
+    private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +79,11 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
                 String passwords = password.getText().toString();
@@ -140,9 +144,11 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
                 String input = editable.toString();
@@ -174,23 +180,21 @@ public class RegisterActivity extends AppCompatActivity {
                 String countryStr = autoCompleteTextView.getText().toString();
                 isCheckUsernameExists = false;
                 isCheckUserExists = false;
-                User newUser = new User(usernameStr, passwordStr, emailStr,countryStr,0);
-//                checkUserExists(newUser);
-//                CheckUsernameExists(newUser);
+                User newUser = new User(usernameStr, passwordStr, emailStr, "0", countryStr);
+                new FetchUsernameTask().execute(usernameStr);
+                new FetchUserTask().execute(emailStr);
 
                 if (usernameStr.length() == 0) {
                     usernameLayout.setError("Field is empty!");
                     passwordLayout.setError(null);
                     countryLayout.setError(null);
                     emailLayout.setError(null);
-                }
-//                else if (isCheckUsernameExists) {
-//                    usernameLayout.setError("This username already exists!");
-//                    passwordLayout.setError(null);
-//                    countryLayout.setError(null);
-//                    emailLayout.setError(null);
-//                }
-                else if (!isUsernameValid(usernameStr)) {
+                } else if (isCheckUsernameExists) {
+                    usernameLayout.setError("This username already exists!");
+                    passwordLayout.setError(null);
+                    countryLayout.setError(null);
+                    emailLayout.setError(null);
+                } else if (!isUsernameValid(usernameStr)) {
                     usernameLayout.setError("Invalid username format!");
                     passwordLayout.setError(null);
                     countryLayout.setError(null);
@@ -201,19 +205,18 @@ public class RegisterActivity extends AppCompatActivity {
                     passwordLayout.setError(null);
                     countryLayout.setError(null);
                 }
-//                else if (isCheckUserExists) {
-//                    emailLayout.setError("You already have an account!");
-//                    usernameLayout.setError(null);
-//                    passwordLayout.setError(null);
-//                    countryLayout.setError(null);
-//                }
+                else if (isCheckUserExists) {
+                    emailLayout.setError("You already have an account!");
+                    usernameLayout.setError(null);
+                    passwordLayout.setError(null);
+                    countryLayout.setError(null);
+                }
                 else if (!isEmailValid(emailStr)) {
                     emailLayout.setError("Invalid email format!");
                     usernameLayout.setError(null);
                     passwordLayout.setError(null);
                     countryLayout.setError(null);
-                }
-                else if (passwordStr.length() == 0) {
+                } else if (passwordStr.length() == 0) {
                     passwordLayout.setError("Field is empty!");
                     usernameLayout.setError(null);
                     emailLayout.setError(null);
@@ -223,7 +226,7 @@ public class RegisterActivity extends AppCompatActivity {
                     usernameLayout.setError(null);
                     emailLayout.setError(null);
                     countryLayout.setError(null);
-                } else if (countryStr.length()==0) {
+                } else if (countryStr.length() == 0) {
                     countryLayout.setError("Field is empty!");
                     usernameLayout.setError(null);
                     emailLayout.setError(null);
@@ -234,7 +237,7 @@ public class RegisterActivity extends AppCompatActivity {
                     emailLayout.setError(null);
                     passwordLayout.setError(null);
                     countryLayout.setError(null);
-                }else {
+                } else {
                     registerUser(usernameStr, passwordStr, emailStr, "0", countryStr);
                     Intent main = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(main);
@@ -258,6 +261,116 @@ public class RegisterActivity extends AppCompatActivity {
         findViewById(R.id.chip_1).setOnClickListener(v -> openGallery());
     }
 
+
+    public class FetchUserTask extends AsyncTask<String, Void, String> {
+        private static final String TAG = "FetchUserTask";
+        private static final String API_URL = "http://10.0.2.2:3000/getUser"; // Replace with your URL
+
+        @Override
+        protected String doInBackground(String... params) {
+            String result = "";
+            HttpURLConnection urlConnection = null;
+            try {
+                URL url = new URL(API_URL + "?email=" + params[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                StringBuilder stringBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line).append("\n");
+                }
+                result = stringBuilder.toString();
+            } catch (Exception e) {
+                Log.e(TAG, "Error during network operation", e);
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            try {
+                if(result.length()==0){
+//                    textView.setText("Useer dosen't exist");
+                    isCheckUserExists=false;
+                }
+                else{
+                    JSONObject jsonObject = new JSONObject(result);
+                    String username = jsonObject.getString("username");
+                    String email = jsonObject.getString("email");
+
+                    // Update UI here
+                    Log.d(TAG, "User: " + username + ", Email: " + email);
+                    isCheckUserExists=true;
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error parsing JSON", e);
+            }
+        }
+    }
+
+    public class FetchUsernameTask extends AsyncTask<String, Void, String> {
+        private static final String TAG = "FetchUserTask";
+        private static final String API_URL = "http://10.0.2.2:3000/getUser"; // Replace with your URL
+
+        @Override
+        protected String doInBackground(String... params) {
+            String result = "";
+            HttpURLConnection urlConnection = null;
+            try {
+                URL url = new URL(API_URL + "?username=" + params[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                StringBuilder stringBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line).append("\n");
+                }
+                result = stringBuilder.toString();
+            } catch (Exception e) {
+                Log.e(TAG, "Error during network operation", e);
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            try {
+                if(result.length()==0){
+//                    textView.setText("Useer dosen't exist");
+                    isCheckUsernameExists=false;
+                }
+                else{
+                    JSONObject jsonObject = new JSONObject(result);
+                    String username = jsonObject.getString("username");
+                    String email = jsonObject.getString("email");
+
+                    // Update UI here
+                    Log.d(TAG, "User: " + username + ", Email: " + email);
+                    isCheckUsernameExists=true;
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error parsing JSON", e);
+            }
+        }
+    }
+
+
+    private void registerUser(String username, String password, String email, String score, String country) {
+        new RegisterUserTask().execute(username, password, email, score, country);
+    }
+
     private class RegisterUserTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -269,28 +382,27 @@ public class RegisterActivity extends AppCompatActivity {
 
             OkHttpClient client = new OkHttpClient();
 
-            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://10.0.2.2:3000/users").newBuilder();
-            urlBuilder.addQueryParameter("username", username);
-            urlBuilder.addQueryParameter("password", password);
-            urlBuilder.addQueryParameter("email", email);
-            if (!score.isEmpty()) {
-                urlBuilder.addQueryParameter("score", score);
-            }
-            if (!country.isEmpty()) {
-                urlBuilder.addQueryParameter("country", country);
-            }
-            String url = urlBuilder.build().toString();
+            // Create JSON object
+            User user = new User(username, password, email, score, country);
+            Gson gson = new Gson();
+            String json = gson.toJson(user);
+
+            RequestBody body = RequestBody.create(JSON, json);
 
             Request request = new Request.Builder()
-                    .url(url)
-                    .post(RequestBody.create(null, new byte[0])) // Empty body for POST request
+//                    .url("http://192.168.1.10:3000/users") // Use your local IP address
+                    .url("http://10.0.2.2:3000/createUser") // Use this for emulator
+                    .post(body)
                     .build();
 
             try (Response response = client.newCall(request).execute()) {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                if (!response.isSuccessful()) {
+                    Log.e("RegisterUserTask", "Unexpected code " + response);
+                    throw new IOException("Unexpected code " + response);
+                }
                 return response.body().string();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("RegisterUserTask", "Failed to register user", e);
                 return null;
             }
         }
@@ -298,38 +410,12 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if (result != null) {
-                Toast.makeText(getBaseContext(),result,Toast.LENGTH_LONG).show();
+//                textView.setText(result);
             } else {
-                Toast.makeText(getBaseContext(),"Failed to register user",Toast.LENGTH_LONG).show();
+//                textView.setText("Failed to register user");
             }
         }
     }
-
-    private void registerUser(String username, String password, String email, String score, String country) {
-        new RegisterUserTask().execute(username, password, email, score, country);
-    }
-
-
-
-//    private void CheckUsernameExists(User newUser) {
-//        usersList = db.getAllUsers();
-//        for (User u : usersList) {
-//            if (u.getUsername().equals(newUser.getUsername())) {
-//                isCheckUsernameExists = true;
-//                break;
-//            }
-//        }
-//    }
-//
-//    private void checkUserExists(User newUser) {
-//        usersList = db.getAllUsers();
-//        for (User u : usersList) {
-//            if (u.getEmail().equals(newUser.getEmail())) {
-//                isCheckUserExists = true;
-//                break;
-//            }
-//        }
-//    }
 
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -359,7 +445,7 @@ public class RegisterActivity extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.close();
             imagePath = imageFile.getAbsolutePath();
-            isImageSet=true;
+            isImageSet = true;
         } catch (IOException e) {
             e.printStackTrace();
         }

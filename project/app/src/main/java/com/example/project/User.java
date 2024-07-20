@@ -27,12 +27,12 @@ public class User {
         this.password = password;
     }
 
-    public User(String username, String password, String email, String country,int score) {
+    public User(String username, String password, String email, String score,String country) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.country = country;
-        this.score=score;
+        this.score=Integer.valueOf(score);
     }
 
     public int getScore() {
