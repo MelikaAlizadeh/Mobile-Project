@@ -12,7 +12,6 @@ module.exports = (fastify) => {
                 QUERY = `SELECT * FROM users WHERE email = $1;`;
                 input = email;
             }
-
             const result = await fastify.pg.query(QUERY, [input]);
             res.send(result.rows[0]);
         } catch (err) {
