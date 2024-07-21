@@ -239,6 +239,7 @@ public class RegisterActivity extends AppCompatActivity {
                     countryLayout.setError(null);
                 } else {
                     registerUser(usernameStr, passwordStr, emailStr, "0", countryStr);
+                    MainActivity.currentUser=newUser;
                     Intent main = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(main);
                     finish();

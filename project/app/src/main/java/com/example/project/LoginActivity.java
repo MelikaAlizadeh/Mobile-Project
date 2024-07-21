@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                     passwordLayout.setError("Invalid combination of username & password!");
                 } else if (isCheckUsernameExists) {
                     Toast.makeText(getBaseContext(), "Welcome back " + usernameStr, Toast.LENGTH_LONG).show();
+                    MainActivity.currentUser=newUser;
                     Intent main = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(main);
                     finish();
