@@ -83,14 +83,8 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         break;
                 }
-
-
-
-
                 return true;
             }
         });
-
-
     }
 }
