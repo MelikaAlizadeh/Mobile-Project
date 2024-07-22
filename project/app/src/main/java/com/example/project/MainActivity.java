@@ -15,6 +15,8 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static User currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,14 +83,8 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         break;
                 }
-
-
-
-
                 return true;
             }
         });
-
-
     }
 }

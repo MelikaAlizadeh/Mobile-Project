@@ -1,11 +1,13 @@
 module.exports = (fastify) => {
-    const getAllUsers = require("../controllers/getAllUsers")(fastify);
-    const getUser = require("../controllers/getUser")(fastify);
-    const createUser = require("../controllers/createUser")(fastify);
-    const saveResume = require("../controllers/saveResume")(fastify);
+    const getAllUsers = require("../controllers/users/getAllUsers.js")(fastify);
+    const getUser = require("../controllers/users/getUser.js")(fastify);
+    const createUser = require("../controllers/users/createUser.js")(fastify);
+    const updateScore = require("../controllers/users/updateScore.js")(fastify);
+    const getTops = require("../controllers/users/topUsers.js")(fastify);
 
-    fastify.get("/users", getAllUsers);
-    fastify.post("/user", getUser);
-    fastify.post("/signup", createUser)
-    fastify.post("/resume", saveResume)
+    fastify.get("/getAllUsers", getAllUsers);
+    fastify.get("/getUser", getUser);
+    fastify.get("/getTops", getTops);
+    fastify.post("/createUser", createUser)
+    fastify.post("/updateScore", updateScore)
 };

@@ -6,14 +6,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -33,8 +36,32 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.profile);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-//        UserDatabase db = new UserDatabase(this);
+                switch (item.getItemId()){
+                    case R.id.home:
+                        Intent i = new Intent(ProfileActivity.this, MainActivity.class);
+                        startActivity(i);
+                        finish();
+                        break;
+                    case R.id.profile:
+                        break;
+                    case R.id.ranking:
+                        Intent in = new Intent(ProfileActivity.this, RankActivity.class);
+                        startActivity(in);
+                        finish();
+                        break;
+                    case R.id.training:
+                        Intent tr = new Intent(ProfileActivity.this, GameActivity.class);
+                        startActivity(tr);
+                        finish();
+                        break;
+                }
+                return true;
+            }
+        });
 
         String imagePath = "data/data/com.example.project/files/project/images/selected_image.jpg";
         File imgFile = new File(imagePath);
