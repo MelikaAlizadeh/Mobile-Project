@@ -94,10 +94,11 @@ public class GameActivity extends AppCompatActivity {
                         finishTheGame();
                         this.finish();
                     }
-                }
-                showNewQuestion();
-            }, 500);
-        });
+                    showNewQuestion();
+
+                }, 500);
+            });
+        }
     }
 
     private void finishTheGame() {
