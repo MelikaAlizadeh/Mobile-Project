@@ -1,7 +1,7 @@
 module.exports = (fastify) => {
     return async (req, res) => {
         const n = req.query.n
-        const QUERY = `SELECT username, score, country FROM users ORDER BY score DESC LIMIT $1;`;
+        const QUERY = `SELECT username, score, country, RANK() OVER (ORDER BY score DESC) AS rank FROM users ORDER BY rank LIMIT $1;`;
         try {
             const result = await fastify.pg.query(QUERY, [n]);
             res.send(result.rows);
