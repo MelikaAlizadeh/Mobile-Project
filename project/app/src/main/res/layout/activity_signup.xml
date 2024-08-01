@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/signup" />
 
@@ -49,11 +49,45 @@
         android:scaleType="fitXY"
         app:srcCompat="@drawable/large_fab" />
 
+    <RadioGroup
+        android:id="@+id/RadioGroupRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingHorizontal="20dp"
+
+        android:layout_marginHorizontal="50dp"
+        android:background="@color/lightBlue"
+        android:layout_below="@+id/chipsgroup"
+        android:orientation="horizontal"
+        >
+
+        <RadioButton
+            android:id="@+id/radioTeacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alata"
+            android:text="Teacher"
+            android:textColor="@color/hardBlue"
+            android:textStyle="bold"></RadioButton>
+
+        <RadioButton
+            android:id="@+id/radioStudent"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alata"
+            android:textColor="@color/hardBlue"
+            android:text="Student"
+            android:textStyle="bold"></RadioButton>
+
+    </RadioGroup>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/chipsgroup"
+        android:layout_below="@+id/RadioGroupRole"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
@@ -168,9 +202,9 @@
             android:id="@+id/autoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
             android:focusedSearchResultHighlightColor="@color/hardBlue"
             android:inputType="textEmailAddress"
+            android:padding="15dp"
             android:textColor="@color/hardBlue"
             android:textColorHint="@color/hardBlue" />
 
