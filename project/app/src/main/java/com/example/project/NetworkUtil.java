@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -17,7 +18,6 @@ public class NetworkUtil {
 
     public interface OnFetchCompleteListener {
         void onFetchComplete(JSONArray result);
-
         void onFetchComplete(JSONObject result);
         void onFetchFailed(Exception e);
     }
