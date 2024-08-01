@@ -1,4 +1,4 @@
-package com.example.mobileproj;
+package com.example.project;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -37,6 +37,7 @@ public class GameActivity extends AppCompatActivity {
     int second = 0;
     TextView timerTextView;
     Intent intent;
+    private String category;
 
 
     @SuppressLint("ResourceAsColor")
@@ -44,6 +45,8 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        category = getIntent().getStringExtra("table name");
 
         fillQuestionArray(questionArray);
 

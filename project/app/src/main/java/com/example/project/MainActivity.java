@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent s = new Intent(MainActivity.this, GameActivity.class);
+                //TODO: category
+//                s.putExtra("table name", )
                 startActivity(s);
                 finish();
             }
