@@ -2,6 +2,7 @@ package com.example.project;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -280,6 +281,18 @@ public class RegisterActivity extends AppCompatActivity {
                     } else {
                         registerUser(usernameStr, passwordStr, emailStr, "0", countryStr);
                         MainActivity.currentUser = newUser;
+                        // Save registration details
+                        SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("registeredUsername", usernameStr);
+                        editor.putString("registeredPassword", passwordStr);
+                        editor.apply();
+                        // Save login state and credentials
+                        editor.putBoolean("isLoggedIn", true);
+                        editor.putString("username", usernameStr);
+                        editor.putString("password", passwordStr);
+                        editor.apply();
+
                         Intent main = new Intent(RegisterActivity.this, MainActivity.class);
                         startActivity(main);
                         finish();

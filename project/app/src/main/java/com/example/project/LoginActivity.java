@@ -1,6 +1,7 @@
 package com.example.project;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,6 +40,18 @@ public class LoginActivity extends AppCompatActivity {
         TextInputEditText username = (TextInputEditText) usernameLayout.getEditText();
         TextInputLayout passwordLayout = findViewById(R.id.textField2);
         TextInputEditText password = (TextInputEditText) passwordLayout.getEditText();
+
+        // Check if the user is logged in
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn) {
+            // User is already logged in, redirect to main activity
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         //to check username
         username.addTextChangedListener(new TextWatcher() {
@@ -105,6 +118,14 @@ public class LoginActivity extends AppCompatActivity {
                 if (isCheckUsernameExists&&!check1&&!check2) {
                     Toast.makeText(getBaseContext(), "Welcome back " + usernameStr, Toast.LENGTH_LONG).show();
                     MainActivity.currentUser=newUser;
+
+                    // Save login state and credentials
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.putString("username", usernameStr);
+                    editor.putString("password", passwordStr);
+                    editor.apply();
+
                     Intent main = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(main);
                     finish();
