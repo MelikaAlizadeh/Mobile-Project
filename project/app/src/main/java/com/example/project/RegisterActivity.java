@@ -46,6 +46,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 public class RegisterActivity extends AppCompatActivity {
+    boolean check1 = true, check2 = true, check3 = true, check4 = true, check5 = true, check6 = true, check7 = true;
 
     List<User> usersList;
     boolean isCheckUsernameExists = false;
@@ -74,6 +75,94 @@ public class RegisterActivity extends AppCompatActivity {
         TextInputLayout countryLayout = findViewById(R.id.textField5);
         @SuppressLint("WrongViewCast") MaterialAutoCompleteTextView autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
 
+        //to check username
+        username.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String usernameStr = username.getText().toString();
+                isCheckUsernameExists = false;
+                new FetchUsernameTask().execute(usernameStr);
+                if (usernameStr.length() == 0) {
+                    usernameLayout.setError("Field is empty!");
+                    check2 = true;
+                } else if (isCheckUsernameExists) {
+                    usernameLayout.setError("This username already exists!");
+                    check2 = true;
+                } else if (!isUsernameValid(usernameStr)) {
+                    usernameLayout.setError("Invalid username format!");
+                    check2 = true;
+                } else {
+                    usernameLayout.setError(null);
+                    check2 = false;
+                }
+            }
+        });
+
+        //to check email
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String emailStr = email.getText().toString();
+                isCheckUserExists = false;
+                new FetchUserTask().execute(emailStr);
+                if (emailStr.length() == 0) {
+                    emailLayout.setError("Field is empty!");
+                    check3 = true;
+                } else if (isCheckUserExists) {
+                    emailLayout.setError("You already have an account!");
+                    check3 = true;
+                } else if (!isEmailValid(emailStr)) {
+                    emailLayout.setError("Invalid email format!");
+                    check3 = true;
+                } else {
+                    emailLayout.setError(null);
+                    check3 = false;
+                }
+            }
+        });
+
+        //to check password
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String passwordStr = password.getText().toString();
+                if (passwordStr.length() == 0) {
+                    passwordLayout.setError("Field is empty!");
+                    check4 = true;
+                } else if (!isPasswordWeak(passwordStr).equals("success")) {
+                    passwordLayout.setError(isPasswordWeak(passwordStr));
+                    check4 = true;
+                } else {
+                    passwordLayout.setError(null);
+                    check4 = false;
+                }
+            }
+        });
+
         //to check repeated password is correct or not
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -86,14 +175,14 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String passwords = password.getText().toString();
-                String repeatPasswords = passwordCheck.getText().toString();
-                if (!repeatPasswords.equals(passwords)) {
-                    passwordCheckLayout.setBoxStrokeColor(Color.RED);
-                    passwordCheckLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
+                String passwordStr = password.getText().toString();
+                String repeatPasswordStr = passwordCheck.getText().toString();
+                if (!repeatPasswordStr.equals(passwordStr)) {
+                    passwordCheckLayout.setError("Passwords do not match!");
+                    check5 = true;
                 } else {
-                    passwordCheckLayout.setBoxStrokeColor(getResources().getColor(R.color.hardBlue));
-                    passwordCheckLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.hardBlue)));
+                    passwordCheckLayout.setError(null);
+                    check5 = false;
                 }
             }
         };
@@ -151,6 +240,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                String countryStr = autoCompleteTextView.getText().toString();
                 String input = editable.toString();
                 boolean isValid = false;
                 for (String country : countries) {
@@ -160,15 +250,20 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }
                 if (!isValid) {
-                    countryLayout.setError("Invalid country");
+                    countryLayout.setError("Invalid country!");
+                    check6 = true;
+                } else if (countryStr.length() == 0) {
+                    countryLayout.setError("Field is empty!");
+                    check6 = true;
                 } else {
                     countryLayout.setError(null);
+                    check6 = false;
                 }
             }
         });
 
 
-        //to check rest of the fields
+        //to check all fields
         ImageView register = findViewById(R.id.btnsignup);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,73 +271,22 @@ public class RegisterActivity extends AppCompatActivity {
                 String usernameStr = username.getText().toString();
                 String emailStr = email.getText().toString();
                 String passwordStr = password.getText().toString();
-                String repeatPasswordStr = passwordCheck.getText().toString();
                 String countryStr = autoCompleteTextView.getText().toString();
-                isCheckUsernameExists = false;
-                isCheckUserExists = false;
                 User newUser = new User(usernameStr, passwordStr, emailStr, "0", countryStr);
-                new FetchUsernameTask().execute(usernameStr);
-                new FetchUserTask().execute(emailStr);
 
-                if (usernameStr.length() == 0) {
-                    usernameLayout.setError("Field is empty!");
-                    passwordLayout.setError(null);
-                    countryLayout.setError(null);
-                    emailLayout.setError(null);
-                } else if (isCheckUsernameExists) {
-                    usernameLayout.setError("This username already exists!");
-                    passwordLayout.setError(null);
-                    countryLayout.setError(null);
-                    emailLayout.setError(null);
-                } else if (!isUsernameValid(usernameStr)) {
-                    usernameLayout.setError("Invalid username format!");
-                    passwordLayout.setError(null);
-                    countryLayout.setError(null);
-                    emailLayout.setError(null);
-                } else if (emailStr.length() == 0) {
-                    emailLayout.setError("Field is empty!");
-                    usernameLayout.setError(null);
-                    passwordLayout.setError(null);
-                    countryLayout.setError(null);
+                if (!check2 && !check3 && !check4 && !check5 && !check6) {
+                    if (!isImageSet) {
+                        Toast.makeText(getBaseContext(), "Please choose an image!", Toast.LENGTH_LONG).show();
+                    } else {
+                        registerUser(usernameStr, passwordStr, emailStr, "0", countryStr);
+                        MainActivity.currentUser = newUser;
+                        Intent main = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(main);
+                        finish();
+                    }
                 }
-                else if (isCheckUserExists) {
-                    emailLayout.setError("You already have an account!");
-                    usernameLayout.setError(null);
-                    passwordLayout.setError(null);
-                    countryLayout.setError(null);
-                }
-                else if (!isEmailValid(emailStr)) {
-                    emailLayout.setError("Invalid email format!");
-                    usernameLayout.setError(null);
-                    passwordLayout.setError(null);
-                    countryLayout.setError(null);
-                } else if (passwordStr.length() == 0) {
-                    passwordLayout.setError("Field is empty!");
-                    usernameLayout.setError(null);
-                    emailLayout.setError(null);
-                    countryLayout.setError(null);
-                } else if (!isPasswordWeak(passwordStr).equals("success")) {
-                    passwordLayout.setError(isPasswordWeak(passwordStr));
-                    usernameLayout.setError(null);
-                    emailLayout.setError(null);
-                    countryLayout.setError(null);
-                } else if (countryStr.length() == 0) {
-                    countryLayout.setError("Field is empty!");
-                    usernameLayout.setError(null);
-                    emailLayout.setError(null);
-                    passwordLayout.setError(null);
-                } else if (!isImageSet) {
-                    Toast.makeText(getBaseContext(), "Please choose an image!", Toast.LENGTH_LONG).show();
-                    usernameLayout.setError(null);
-                    emailLayout.setError(null);
-                    passwordLayout.setError(null);
-                    countryLayout.setError(null);
-                } else {
-                    registerUser(usernameStr, passwordStr, emailStr, "0", countryStr);
-                    MainActivity.currentUser=newUser;
-                    Intent main = new Intent(RegisterActivity.this, MainActivity.class);
-                    startActivity(main);
-                    finish();
+                else{
+                    Toast.makeText(getBaseContext(), "Please fill the fields correctly!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -296,18 +340,17 @@ public class RegisterActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             try {
-                if(result.length()==0){
+                if (result.length() == 0) {
 //                    textView.setText("Useer dosen't exist");
-                    isCheckUserExists=false;
-                }
-                else{
+                    isCheckUserExists = false;
+                } else {
                     JSONObject jsonObject = new JSONObject(result);
                     String username = jsonObject.getString("username");
                     String email = jsonObject.getString("email");
 
                     // Update UI here
                     Log.d(TAG, "User: " + username + ", Email: " + email);
-                    isCheckUserExists=true;
+                    isCheckUserExists = true;
                 }
             } catch (Exception e) {
                 Log.e(TAG, "Error parsing JSON", e);
@@ -348,18 +391,17 @@ public class RegisterActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             try {
-                if(result.length()==0){
+                if (result.length() == 0) {
 //                    textView.setText("Useer dosen't exist");
-                    isCheckUsernameExists=false;
-                }
-                else{
+                    isCheckUsernameExists = false;
+                } else {
                     JSONObject jsonObject = new JSONObject(result);
                     String username = jsonObject.getString("username");
                     String email = jsonObject.getString("email");
 
                     // Update UI here
                     Log.d(TAG, "User: " + username + ", Email: " + email);
-                    isCheckUsernameExists=true;
+                    isCheckUsernameExists = true;
                 }
             } catch (Exception e) {
                 Log.e(TAG, "Error parsing JSON", e);

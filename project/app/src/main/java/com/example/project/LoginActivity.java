@@ -3,6 +3,8 @@ package com.example.project;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,7 +24,7 @@ import java.net.URL;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
-
+    boolean check1=true,check2=true;
     List<User> usersList;
     String correctPassword;
     boolean isCheckUsernameExists = false;
@@ -38,30 +40,76 @@ public class LoginActivity extends AppCompatActivity {
         TextInputLayout passwordLayout = findViewById(R.id.textField2);
         TextInputEditText password = (TextInputEditText) passwordLayout.getEditText();
 
+        //to check username
+        username.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String usernameStr = username.getText().toString();
+                isCheckUsernameExists = false;
+                new FetchUsernameTask().execute(usernameStr);
+                if (usernameStr.length() == 0) {
+                    usernameLayout.setError("Field is empty!");
+                    check1 = true;
+                } else if (!isCheckUsernameExists) {
+                    usernameLayout.setError("Invalid username!");
+                    check1 = true;
+                } else {
+                    usernameLayout.setError(null);
+                    check1 = false;
+                }
+            }
+        });
+
+        //to check password
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String passwordStr = password.getText().toString();
+                if (passwordStr.length() == 0) {
+                    passwordLayout.setError("Field is empty!");
+                    check2 = true;
+                } else if (!correctPassword.equals(passwordStr)) {
+                    passwordLayout.setError("Invalid combination of username & password!");
+                    check2 = true;
+                } else {
+                    passwordLayout.setError(null);
+                    check2 = false;
+                }
+            }
+        });
+
         ImageView login = findViewById(R.id.btnsignin);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isCheckUsernameExists = false;
-                User newUser = new User(username.getText().toString(), password.getText().toString());
                 String usernameStr = username.getText().toString();
                 String passwordStr = password.getText().toString();
-                new FetchUsernameTask().execute(usernameStr);
+                User newUser = new User(usernameStr, passwordStr);
 
-                if (usernameStr.length() == 0) {
-                    usernameLayout.setError("Field is empty!");
-                } else if (passwordStr.length() == 0) {
-                    passwordLayout.setError("Field is empty!");
-                } else if (!isCheckUsernameExists) {
-                    usernameLayout.setError("Invalid username!");
-                } else if (!correctPassword.equals(passwordStr)) {
-                    passwordLayout.setError("Invalid combination of username & password!");
-                } else if (isCheckUsernameExists) {
+                if (isCheckUsernameExists&&!check1&&!check2) {
                     Toast.makeText(getBaseContext(), "Welcome back " + usernameStr, Toast.LENGTH_LONG).show();
                     MainActivity.currentUser=newUser;
                     Intent main = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(main);
                     finish();
+                }else{
+                    Toast.makeText(getBaseContext(), "Please fill the fields correctly!", Toast.LENGTH_LONG).show();
                 }
             }
         });
