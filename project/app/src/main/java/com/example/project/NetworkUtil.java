@@ -2,11 +2,8 @@ package com.example.project;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import org.json.JSONArray;
-
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -14,11 +11,11 @@ import java.net.URL;
 
 public class NetworkUtil {
 
-    private static final String TAG = "NetworkUtils";
+    private static final String TAG = "NetworkUtil";
 
     public interface OnFetchCompleteListener {
-        void onFetchComplete(JSONArray result);
         void onFetchComplete(JSONObject result);
+        void onFetchComplete(JSONArray result);
         void onFetchFailed(Exception e);
     }
 
@@ -26,7 +23,7 @@ public class NetworkUtil {
         new FetchTask(listener).execute(urlString);
     }
 
-    private static class FetchTask extends AsyncTask<String, Void, JSONObject> {
+    private static class FetchTask extends AsyncTask<String, Void, Object> {
         private Exception exception;
         private final OnFetchCompleteListener listener;
 
@@ -35,7 +32,7 @@ public class NetworkUtil {
         }
 
         @Override
-        protected JSONObject doInBackground(String... params) {
+        protected Object doInBackground(String... params) {
             String urlString = params[0];
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
@@ -52,7 +49,12 @@ public class NetworkUtil {
                     response.append(line);
                 }
 
-                return new JSONObject(response.toString());
+                String responseString = response.toString();
+                try {
+                    return new JSONObject(responseString);
+                } catch (Exception e) {
+                    return new JSONArray(responseString);
+                }
             } catch (Exception e) {
                 exception = e;
                 Log.e(TAG, "Error during network operation", e);
@@ -72,11 +74,17 @@ public class NetworkUtil {
         }
 
         @Override
-        protected void onPostExecute(JSONObject result) {
+        protected void onPostExecute(Object result) {
             if (exception != null) {
                 listener.onFetchFailed(exception);
             } else {
-                listener.onFetchComplete(result);
+                if (result instanceof JSONObject) {
+                    listener.onFetchComplete((JSONObject) result);
+                } else if (result instanceof JSONArray) {
+                    listener.onFetchComplete((JSONArray) result);
+                } else {
+                    listener.onFetchFailed(new Exception("Unexpected result type"));
+                }
             }
         }
     }
